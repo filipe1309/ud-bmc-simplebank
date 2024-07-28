@@ -14,6 +14,10 @@
 
 This project was developed following Udemy's "[Backend Master Class [Golang + Postgres + Kubernetes + gRPC]](https://www.udemy.com/course/backend-master-class-golang-postgresql-kubernetes/)" class.
 
+The project is a simple bank system that allows you to create accounts, deposit and withdraw money, and transfer money between accounts.
+
+![Database](db_simple-bank.png)
+
 Notes taken during the course are in the [notes](notes.md) file.
 
 ## :computer: Technologies

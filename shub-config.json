@@ -1,0 +1,14 @@
+{
+    "version": "",
+    "username": "Filipe Leuch Bonfim",
+    "github_username": "filipe1309",
+    "project_name": "Backend Master Class [Golang + Postgres + Kubernetes + gRPC]",
+    "project_repo_name": "ud-bmc-simplebank",
+    "project_repo_link": "https://github.com/filipe1309/ud-bmc-simplebank.git",
+    "course_source": "Udemy",
+    "course_name": "Backend Master Class [Golang + Postgres + Kubernetes + gRPC]",
+    "course_link": "https://www.udemy.com/course/backend-master-class-golang-postgresql-kubernetes/",
+    "course_type": "class",
+    "course_multiple": "false",
+    "vcs": "false"
+}

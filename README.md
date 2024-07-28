@@ -98,7 +98,7 @@ Please make sure to update tests as appropriate. -->
 
 ## :clap: Acknowledgments
 
-- [AlgoExpert](https://www.algoexpert.io/)
+- [TablePlus](https://tableplus.com/)
 - [ShubcoGen Template™](https://github.com/filipe1309/shubcogen-template)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

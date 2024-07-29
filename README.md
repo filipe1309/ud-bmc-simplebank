@@ -53,9 +53,9 @@ cd ud-bmc-simplebank
 ```sh
 make install
 ```
-> This will run the commands: `make createdb` and `make migrateup`
-> This will install the project dependencies and create the database.
-> The database will be available at `localhost:5432` with
+> This will run the commands: `make createdb` and `make migrateup`.  
+> This will install the project dependencies and create the database.  
+> The database will be available at `localhost:5432` with:
 > - user: `root`
 > - password: `secret`
 > - database: `simple_bank`
@@ -78,6 +78,9 @@ make run
 ```sh
 make test
 ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 
 ## :memo: License
 

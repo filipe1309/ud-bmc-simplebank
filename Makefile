@@ -21,6 +21,7 @@ sqlc:
 # run tests
 test:
 	@echo "🟢 Running tests..."
+	go test -v -cover ./...
 
 # run node
 run:

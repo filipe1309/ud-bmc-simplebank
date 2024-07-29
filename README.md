@@ -24,6 +24,7 @@ Notes taken during the course are in the [notes](notes.md) file.
 
 - [Go](https://golang.org/)
 - [PostgreSQL](https://www.postgresql.org/)
+- [SQLC v2](https://sqlc.dev/)
 - [gRPC](https://grpc.io/)
 - [Docker](https://www.docker.com/)
 - [Kubernetes](https://kubernetes.io/)
@@ -98,10 +99,16 @@ Please make sure to update tests as appropriate. -->
 
 ## :clap: Acknowledgments
 
+- [Simple Bank Repo](https://github.com/techschool/simplebank)
+- [Backend Master Class [Golang + Postgres + Kubernetes + gRPC]](https://www.udemy.com/course/backend-master-class-golang-postgresql-kubernetes/)
+- [Simple Bank DBDocs](https://dbdocs.io/techschool.guru/simple_bank)
 - [TablePlus](https://tableplus.com/)
 - [ShubcoGen Template™](https://github.com/filipe1309/shubcogen-template)
 - [Golang Migrate CLI Repo](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate)
 - [DBML](https://dbml.dbdiagram.io/docs/)
+- [Gorm](https://gorm.io/)
+- [SQLX](https://jmoiron.github.io/sqlx/)
+- [SQLC](https://sqlc.dev/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

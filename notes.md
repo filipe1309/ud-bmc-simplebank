@@ -4,7 +4,7 @@
 
 ## Section 1: Working with database [Postgres + SQLC]
 
-### Docker Postgres
+#### Docker Postgres
 
 ```sh
 docker pull postgres:12-alpine
@@ -26,7 +26,7 @@ docker ps -a
 docker start postgres12
 ```
 
-### Migrate
+#### Migrate
 
 ```sh
 $ brew install golang-migrate
@@ -71,7 +71,7 @@ migrate -path db/migration -database "postgresql://root:secret@localhost:5432/si
 migrate -path db/migration -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down
 ```
 
-### CRUD
+#### CRUD
 
 Database/SQL
 - Very fast & straightforward
@@ -95,7 +95,7 @@ SQLC
 - Full support for PostgreSQL, MySQL, SQLite
 
 
-### SQLC
+#### SQLC
 
 ```sh
 brew install sqlc
@@ -115,6 +115,15 @@ make sqlc
 ```sh
 go mod init github.com/filipe1309/ud-bmc-simplebank
 go mod tidy
+```
+
+### Write unit tests for database CRUD with random data in Golang
+
+https://github.com/lib/pq
+
+```sh
+go get github.com/lib/pq
+go get github.com/stretchr/testify
 ```
 
 

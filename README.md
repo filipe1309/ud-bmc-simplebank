@@ -36,6 +36,7 @@ Notes taken during the course are in the [notes](notes.md) file.
 ## :scroll: Requirements
 
 - [Docker](https://www.docker.com/)
+- [Go](https://golang.org/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -72,19 +73,11 @@ make run
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- ## :white_check_mark: Tests
-
-After up the container:
+## :white_check_mark: Tests
 
 ```sh
-docker-compose exec -t {{ CONTAINER_SERVICE_NAME }} ./vendor/bin/phpunit
+make test
 ```
-
-## Contributing
-
-Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
-
-Please make sure to update tests as appropriate. -->
 
 ## :memo: License
 

@@ -127,3 +127,11 @@ go get github.com/stretchr/testify
 ```
 
 
+### A clean way to implement database transaction in Golang
+
+Transaction
+- A sequence of operations performed as a single logical unit of work
+- Provide a reliable and consistent unit of work, even in a case of system failure
+- Provide isolation between programs accessing the database concurrently
+- ACID properties: Atomicity, Consistency, Isolation, Durability
+

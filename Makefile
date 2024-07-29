@@ -1,4 +1,6 @@
-.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc
+.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install
+
+install: createdb migrateup
 
 postgres:
 	docker run --name postgres12 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d -p 5432:5432 postgres:12-alpine
@@ -29,6 +31,13 @@ run:
 
 help:
 	@echo "📖 Available commands:"
+	@echo "  make install"
+	@echo "  make postgres"
+	@echo "  make createdb"
+	@echo "  make dropdb"
+	@echo "  make migrateup"
+	@echo "  make migratedown"
+	@echo "  make sqlc"
 	@echo "  make run"
 	@echo "  make test"
 	@echo "  make help"

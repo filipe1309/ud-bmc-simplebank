@@ -24,7 +24,9 @@ Notes taken during the course are in the [notes](notes.md) file.
 
 - [Go](https://golang.org/)
 - [PostgreSQL](https://www.postgresql.org/)
+- [Lib pq](https://github.com/lib/pq)
 - [SQLC v2](https://sqlc.dev/)
+- [Testify](https://github.com/stretchr/testify)
 - [gRPC](https://grpc.io/)
 - [Docker](https://www.docker.com/)
 - [Kubernetes](https://kubernetes.io/)
@@ -109,6 +111,8 @@ Please make sure to update tests as appropriate. -->
 - [Gorm](https://gorm.io/)
 - [SQLX](https://jmoiron.github.io/sqlx/)
 - [SQLC](https://sqlc.dev/)
+- [Lib pq](https://github.com/lib/pq)
+- [Testify](https://github.com/stretchr/testify)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

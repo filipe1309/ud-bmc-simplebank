@@ -100,6 +100,8 @@ Please make sure to update tests as appropriate. -->
 
 - [TablePlus](https://tableplus.com/)
 - [ShubcoGen Template™](https://github.com/filipe1309/shubcogen-template)
+- [Golang Migrate CLI Repo](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate)
+- [DBML](https://dbml.dbdiagram.io/docs/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

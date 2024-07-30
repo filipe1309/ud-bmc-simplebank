@@ -23,6 +23,7 @@ Notes taken during the course are in the [notes](notes.md) file.
 ## :computer: Technologies
 
 - [Go](https://golang.org/)
+- [Gin](https://gin-gonic.com/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Lib pq](https://github.com/lib/pq)
 - [SQLC v2](https://sqlc.dev/)

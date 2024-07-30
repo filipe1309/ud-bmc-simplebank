@@ -388,4 +388,8 @@ mkdir -p .github/workflows
 touch .github/workflows/ci.yml
 ```
 
+## Section 2: Building RESTful HTTP JSON API [Gin + JWT + PASETO]
 
+```sh
+go get -u github.com/gin-gonic/gin
+```

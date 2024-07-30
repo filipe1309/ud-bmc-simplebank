@@ -37,6 +37,7 @@ Notes taken during the course are in the [notes](notes.md) file.
 
 - [Docker](https://www.docker.com/)
 - [Go](https://golang.org/)
+- [Golang Migrate](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -121,6 +122,7 @@ make test
 - [Lib pq](https://github.com/lib/pq)
 - [Testify](https://github.com/stretchr/testify)
 - [PostgreSQL Wiki - Lock Monitoring](https://wiki.postgresql.org/wiki/Lock_Monitoring)
+- [Creating PostgreSQL service containers](https://docs.github.com/en/actions/using-containerized-services/creating-postgresql-service-containers)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

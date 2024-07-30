@@ -31,6 +31,9 @@ test:
 run:
 	@echo "🏁 Running code..."
 
+rundb:
+	docker exec -it postgres12 psql -U root -d simple_bank
+
 help:
 	@echo "📖 Available commands:"
 	@echo "  make install"

@@ -120,6 +120,7 @@ make test
 - [SQLC](https://sqlc.dev/)
 - [Lib pq](https://github.com/lib/pq)
 - [Testify](https://github.com/stretchr/testify)
+- [PostgreSQL Wiki - Lock Monitoring](https://wiki.postgresql.org/wiki/Lock_Monitoring)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

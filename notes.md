@@ -318,3 +318,65 @@ v3:
 ```go
 result.FromAccount, result.ToAccount, err = addMoney(ctx, q, arg.FromAccountID, -arg.Amount, arg.ToAccountID, arg.Amount)
 ```
+
+
+### Deeply understand the database transaction isolation levels & read phenomena
+
+ACID Properties: Atomicity, Consistency, Isolation, Durability
+
+Read Phenomena: Is a situation where one transaction reads data that is being modified by another transaction, and the final result of the first transaction is different from the result of the second transaction.
+- Dirty Read: A transaction reads uncommitted data from another transaction
+- Non-Repeatable Read: A transaction reads different data in two separate reads
+- Phantom Read: A transaction reads different rows in two separate reads
+- Serialization Anomaly: A transaction reads data that is inconsistent with the database state
+
+
+4 Standard of Isolation Levels (from lowest to highest):
+- Read Uncommitted: Can see data written by uncommitted transactions
+- Read Committed: Can only see data written by committed transactions
+- Repeatable Read: Same read query always returns the same result
+- Serializable: Can achieve the same result as if transactions were executed serially instead of concurrently
+
+Isolation levels in MySQL:
+
+```sql
+SELECT @@GLOBAL.tx_isolation, @@tx_isolation;
+SET tx_isolation = 'READ-UNCOMMITTED'; -- Read Uncommitted on current session
+SET SESSION TRANSACTION ISOLATION LEVEL READ UNCOMMITTED; -- Read Uncommitted on current session
+SET GLOBAL tx_isolation = 'READ-UNCOMMITTED'; -- Read Uncommitted on global session
+```
+
+Isoaltion levels in Postgres:
+
+```sql
+SHOW default_transaction_isolation;
+SHOW TRANSACTION ISOLATION LEVEL;
+SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED; -- Read Uncommitted on current session, in Postgres is not supported, will be set to READ COMMITTED
+```
+
+Table Isoaltion Levels x Read Phenomena in MySQL:
+
+|        MySQL         | Read Uncommitted | Read Committed | Repeatable Read | Serializable |
+|----------------------|------------------|----------------|-----------------|--------------|
+| Dirty Read           | Yes              | No             | No              | No           |
+| Non-Repeatable Read  | Yes              | Yes            | No              | No           |
+| Phantom Read         | Yes              | Yes            | No              | No           |
+| Serialization Anomaly| Yes              | Yes            | Yes             | No           |
+
+- 4 levels of isolation: Read Uncommitted, Read Committed, Repeatable Read, Serializable
+- Use locking mechanism to prevent dirty read, non-repeatable read, phantom read, and serialization anomaly
+- Default isolation level: Repeatable Read
+
+Table Isoaltion Levels x Read Phenomena in Postgres:
+
+|      PostgreSQL      | Read Uncommitted | Read Committed | Repeatable Read | Serializable |
+|----------------------|------------------|----------------|-----------------|--------------|
+| Dirty Read           | No               | No             | No              | No           |
+| Non-Repeatable Read  | Yes              | Yes            | No              | No           |
+| Phantom Read         | Yes              | Yes            | No              | No           |
+| Serialization Anomaly| Yes              | Yes            | Yes             | No           |
+
+- 3 levels of isolation: Read Committed, Repeatable Read, Serializable
+- There is no Read Uncommitted in Postgres
+- Use dependencies detection mechanism to prevent dirty read, non-repeatable read, phantom read, and serialization anomaly
+- Default isolation level: Read Committed

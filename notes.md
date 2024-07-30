@@ -380,3 +380,12 @@ Table Isoaltion Levels x Read Phenomena in Postgres:
 - There is no Read Uncommitted in Postgres
 - Use dependencies detection mechanism to prevent dirty read, non-repeatable read, phantom read, and serialization anomaly
 - Default isolation level: Read Committed
+
+### 12. Setup Github Actions for Golang + Postgres to run automated tests
+
+```sh
+mkdir -p .github/workflows
+touch .github/workflows/ci.yml
+```
+
+```yml

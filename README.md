@@ -68,8 +68,9 @@ make install
 ## :runner: Running
 
 ```sh
-make run
+make server
 ```
+> This will run the server at `localhost:8080`
 
 > Access http://localhost
 

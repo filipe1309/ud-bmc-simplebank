@@ -1,4 +1,4 @@
-.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install
+.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server
 
 DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 
@@ -28,11 +28,14 @@ test:
 	go test -v -cover ./...
 
 # run node
-run:
+run: server
 	@echo "🏁 Running code..."
 
 rundb:
 	docker exec -it postgres12 psql -U root -d simple_bank
+
+server:
+	go run main.go
 
 help:
 	@echo "📖 Available commands:"
@@ -44,5 +47,7 @@ help:
 	@echo "  make migratedown"
 	@echo "  make sqlc"
 	@echo "  make run"
+	@echo "  make rundb"
+	@echo "  make server"
 	@echo "  make test"
 	@echo "  make help"

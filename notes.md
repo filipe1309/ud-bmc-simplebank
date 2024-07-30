@@ -235,3 +235,86 @@ JOIN pg_locks l ON l.pid = a.pid
 WHERE a.application_name = 'psql'
 ORDER BY a.pid;
 ```
+
+
+### How to avoid deadlock in DB transaction? Queries order matters!
+
+Deadlock transactions:
+
+```sql
+-- Tx1: transfers $10 from account 1 to account 2
+BEGIN; -- #1
+
+UPDATE accounts SET balance = balance - 10 WHERE id = 1 RETURNING *; -- #2 blocks accounts...
+UPDATE accounts SET balance = balance + 10 WHERE id = 2 RETURNING *; -- #5 -- Query is blocked!!, because Tx2 is updating account with id = 2
+
+ROLLBACK;
+
+-- Tx2: transfers $10 from account 2 to account 1
+BEGIN; -- #3
+
+UPDATE accounts SET balance = balance - 10 WHERE id = 2 RETURNING *; -- #4 blocks accounts...
+UPDATE accounts SET balance = balance + 10 WHERE id = 1 RETURNING *; -- #6 DEADLOCK!!!
+
+ROLLBACK;
+```
+
+
+Solution, update the accounts in the same order:
+
+```sql
+-- Tx1: transfers $10 from account 1 to account 2
+BEGIN; -- #1
+
+UPDATE accounts SET balance = balance - 10 WHERE id = 1 RETURNING *; -- #2 blocks accounts id = 1...
+UPDATE accounts SET balance = balance + 10 WHERE id = 2 RETURNING *; -- #5
+
+COMMIT; -- #6
+
+-- Tx2: transfers $10 from account 2 to account 1
+BEGIN; -- #3
+
+UPDATE accounts SET balance = balance + 10 WHERE id = 1 RETURNING *; -- #4 Query is blocked!!, because Tx1 is updating account with id = 1, Unblocks after Tx1 COMMIT
+UPDATE accounts SET balance = balance - 10 WHERE id = 2 RETURNING *; -- #7
+
+COMMIT; -- #8 No deadlock =)
+```
+
+Refactor of account balance update
+
+v1:
+
+```go
+fmt.Println(txName, "create account 1")
+account1, err := q.GetAccountForUpdate(ctx, arg.FromAccountID)
+if err != nil {
+	return err
+}
+
+fmt.Println(txName, "update account 1")
+result.FromAccount, err = q.UpdateAccount(ctx, UpdateAccountParams{
+	ID:      arg.FromAccountID,
+	Balance: account1.Balance - arg.Amount,
+})
+if err != nil {
+	return err
+}
+```
+
+v2:
+
+```go
+result.FromAccount, err = q.AddAccountBalance(ctx, AddAccountBalanceParams{
+	ID:     arg.FromAccountID,
+	Amount: -arg.Amount,
+})
+if err != nil {
+	return err
+}
+```
+
+v3:
+
+```go
+result.FromAccount, result.ToAccount, err = addMoney(ctx, q, arg.FromAccountID, -arg.Amount, arg.ToAccountID, arg.Amount)
+```

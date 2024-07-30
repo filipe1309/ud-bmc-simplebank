@@ -390,6 +390,18 @@ touch .github/workflows/ci.yml
 
 ## Section 2: Building RESTful HTTP JSON API [Gin + JWT + PASETO]
 
+### Implement Restful HTTP JSON API in Go using Gin
+
 ```sh
 go get -u github.com/gin-gonic/gin
+```
+
+### Load config file from & environment variables in Go with Viper
+
+```sh
+go get github.com/spf13/viper
+```
+
+```sh
+SERVER_ADDRESS=0.0.0.0:8081 make server
 ```

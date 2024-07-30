@@ -24,9 +24,10 @@ Notes taken during the course are in the [notes](notes.md) file.
 
 - [Go](https://golang.org/)
 - [Gin](https://gin-gonic.com/)
+- [Viper](https://github.com/spf13/viper)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Lib pq](https://github.com/lib/pq)
-- [SQLC v2](https://sqlc.dev/)
+- [SQLC](https://sqlc.dev/)
 - [Testify](https://github.com/stretchr/testify)
 - [gRPC](https://grpc.io/)
 - [Docker](https://www.docker.com/)
@@ -125,6 +126,8 @@ make test
 - [Testify](https://github.com/stretchr/testify)
 - [PostgreSQL Wiki - Lock Monitoring](https://wiki.postgresql.org/wiki/Lock_Monitoring)
 - [Creating PostgreSQL service containers](https://docs.github.com/en/actions/using-containerized-services/creating-postgresql-service-containers)
+- [Gin](https://gin-gonic.com/)
+- [Viper](https://github.com/spf13/viper)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

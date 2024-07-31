@@ -1,4 +1,4 @@
-.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock
+.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1
 
 DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 
@@ -16,8 +16,14 @@ dropdb:
 migrateup:
 	migrate -path db/migration -database "$(DB_URL)" -verbose up
 
+migrateup1:
+	migrate -path db/migration -database "$(DB_URL)" -verbose up 1
+
 migratedown:
 	migrate -path db/migration -database "$(DB_URL)" -verbose down
+
+migratedown1:
+	migrate -path db/migration -database "$(DB_URL)" -verbose down 1
 
 sqlc:
 	sqlc generate
@@ -47,7 +53,9 @@ help:
 	@echo "  make createdb"
 	@echo "  make dropdb"
 	@echo "  make migrateup"
+	@echo "  make migrateup1"
 	@echo "  make migratedown"
+	@echo "  make migratedown1"
 	@echo "  make sqlc"
 	@echo "  make run"
 	@echo "  make rundb"

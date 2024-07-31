@@ -462,3 +462,9 @@ func TestGetAccountAPI(t *testing.T) {
 	requireBodyMatchAccount(t, recorder.Body, account)
 }
 ```
+
+### 17. Add users table with unique & foreign key constraints in PostgreSQL
+
+```sh
+migrate create -ext sql -dir db/migration -seq add_users
+```

@@ -1,4 +1,4 @@
-.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server
+.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock
 
 DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 
@@ -36,6 +36,9 @@ rundb:
 
 server:
 	go run main.go
+
+mock:
+	moockgen -package mockdb -destination db/mock/store.go github.com/filipe1309/ud-bmc-simplebank/db/sqlc Store
 
 help:
 	@echo "📖 Available commands:"

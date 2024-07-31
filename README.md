@@ -29,6 +29,7 @@ Notes taken during the course are in the [notes](notes.md) file.
 - [Lib pq](https://github.com/lib/pq)
 - [SQLC](https://sqlc.dev/)
 - [Testify](https://github.com/stretchr/testify)
+- [mockgen/gomock](https://github.com/uber-go/mock)
 - [gRPC](https://grpc.io/)
 - [Docker](https://www.docker.com/)
 - [Kubernetes](https://kubernetes.io/)

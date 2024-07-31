@@ -405,3 +405,60 @@ go get github.com/spf13/viper
 ```sh
 SERVER_ADDRESS=0.0.0.0:8081 make server
 ```
+
+### Mock DB for testing HTTP API in Go and achieve 100% coverage
+
+```sh
+go install go.uber.org/mock/mockgen@latest
+go get go.uber.org/mock/mockgen/model
+mockgen -package mockdb -destination db/mock/store.go github.com/filipe1309/ud-bmc-simplebank/db/sqlc Store
+```
+
+Test API with mock DB:
+
+v1:
+
+```go
+func TestGetAccountAPI(t *testing.T) {
+	account := randomAccount()
+
+	testCases := []struct {
+		name         string
+		accountID    int64
+		buildStubs func(store *mockdb.MockStore)
+		checkResponse func(t *testing.T, recorder *httptest.ResponseRecorder)
+	}{
+		{
+			name: "OK",
+			accountID: account.ID,
+			buildStubs: func(store *mockdb.MockStore) {
+				
+			}
+		}
+	}
+
+	ctrl := gomock.NewController(t)
+	defer ctrl.Finish()
+
+	store := mockdb.NewMockStore(ctrl)
+	// build stubs
+	store.EXPECT().
+		GetAccount(gomock.Any(), gomock.Eq(account.ID)).
+		Times(1).
+		Return(account, nil)
+
+	// start test server and send request
+	server := NewServer(store)
+	recorder := httptest.NewRecorder()
+
+	url := fmt.Sprintf("/accounts/%d", account.ID)
+	request, err := http.NewRequest(http.MethodGet, url, nil)
+	require.NoError(t, err)
+
+	server.router.ServeHTTP(recorder, request)
+
+	// check response
+	require.Equal(t, http.StatusOK, recorder.Code)
+	requireBodyMatchAccount(t, recorder.Body, account)
+}
+```

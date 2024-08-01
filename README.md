@@ -129,6 +129,7 @@ make test
 - [Creating PostgreSQL service containers](https://docs.github.com/en/actions/using-containerized-services/creating-postgresql-service-containers)
 - [Gin](https://gin-gonic.com/)
 - [Viper](https://github.com/spf13/viper)
+- [Go Package Validator](https://github.com/go-playground/validator)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

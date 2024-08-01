@@ -1,0 +1,41 @@
+# Create account
+POST http://localhost:8080/accounts
+
+{
+    "owner": "zlvwmy",
+    "currency": "EUR"
+}
+
+###
+
+# Get one account
+GET http://localhost:8080/accounts/1
+
+###
+
+# Get all accounts with pagination
+GET http://localhost:8080/accounts?page_id=1&page_size=10
+
+### 
+
+# Create Transfer
+POST http://localhost:8080/transfers
+
+{
+  "from_account_id": 3,
+  "to_account_id": 5,
+  "amount": 100,
+  "currency": "USD"
+}
+
+### 
+
+# Create user
+POST http://localhost:8080/users
+
+{
+  "username": "johndoe5",
+  "full_name": "John Doe 5",
+  "email": "john.doe5@email.com",
+  "password": "secret"
+}

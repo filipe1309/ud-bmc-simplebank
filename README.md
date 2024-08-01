@@ -20,6 +20,8 @@ The project is a simple bank system that allows you to create accounts, deposit 
 
 Notes taken during the course are in the [notes](notes.md) file.
 
+Examples of the API requests are in the [api](api.http) file.
+
 ## :computer: Technologies
 
 - [Go](https://golang.org/)
@@ -132,4 +134,3 @@ make test
 - [Go Package Validator](https://github.com/go-playground/validator)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-

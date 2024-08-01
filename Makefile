@@ -44,7 +44,7 @@ server:
 	go run main.go
 
 mock:
-	moockgen -package mockdb -destination db/mock/store.go github.com/filipe1309/ud-bmc-simplebank/db/sqlc Store
+	mockgen -package mockdb -destination db/mock/store.go github.com/filipe1309/ud-bmc-simplebank/db/sqlc Store
 
 help:
 	@echo "📖 Available commands:"

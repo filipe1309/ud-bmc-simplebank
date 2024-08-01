@@ -6,8 +6,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// HashedPassword returns the bcrypt hashed version of the password.
-func HashedPassword(password string) (string, error) {
+// HashPassword returns the bcrypt hashed version of the password.
+func HashPassword(password string) (string, error) {
 	hash, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
 		return "", fmt.Errorf("error hashing password: %w", err)

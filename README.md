@@ -20,8 +20,6 @@ The project is a simple bank system that allows you to create accounts, deposit 
 
 Notes taken during the course are in the [notes](notes.md) file.
 
-Examples of the API requests are in the [api](api.http) file.
-
 ## :computer: Technologies
 
 - [Go](https://golang.org/)
@@ -82,6 +80,24 @@ make server
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## :rocket: Usage
+
+### API
+
+table with API, name, and rule:
+
+| API | Name | Rule |
+| --- | --- | --- |
+| `POST /accounts` | Create a new account | A logged user can only create an account for himself/herself |
+| `GET /accounts/:id` | Get an account by id | A logged user can only get accounts that belong to himself/herself |
+| `GET /accounts` | List accounts | A logged user can only list accounts that belong to himself/herself |
+| `POST /transfers` | Create a new transfer | A logged user can only send money from his/her account |
+
+Examples of the API requests are in the [api](api.http) file.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
 ## :white_check_mark: Tests
 
 ```sh
@@ -138,5 +154,6 @@ make test
 - [Golang JWT](https://github.com/golang-jwt/jwt)
 - [PASETO](https://paseto.io/)
 - [Golang PASETO](https://github.com/o1egl/paseto)
+- [VSCode REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

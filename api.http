@@ -1,25 +1,33 @@
+@baseUrl = http://localhost:8080
+
 # Create account
-POST http://localhost:8080/accounts
+POST {{baseUrl}}/accounts
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
-    "owner": "zlvwmy",
-    "currency": "EUR"
+    "owner": "johndoe5",
+    "currency": "USD"
 }
 
 ###
 
 # Get one account
-GET http://localhost:8080/accounts/1
+GET {{baseUrl}}/accounts/133
+Authorization: Bearer {{authToken}}
 
 ###
 
 # Get all accounts with pagination
-GET http://localhost:8080/accounts?page_id=1&page_size=10
+GET {{baseUrl}}/accounts?page_id=1&page_size=10
+Authorization: Bearer {{authToken}}
 
 ### 
 
 # Create Transfer
-POST http://localhost:8080/transfers
+POST {{baseUrl}}/transfers
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
   "from_account_id": 3,
@@ -31,7 +39,9 @@ POST http://localhost:8080/transfers
 ### 
 
 # Create user
-POST http://localhost:8080/users
+POST {{baseUrl}}/users
+Content-Type: application/json
+Authorization: Bearer {{authToken}}
 
 {
   "username": "johndoe5",
@@ -43,10 +53,13 @@ POST http://localhost:8080/users
 ###
 
 # Login user
-POST http://localhost:8080/users/login
+# @name login
+POST {{baseUrl}}/users/login
+Content-Type: application/json
 
 {
   "username": "johndoe5",
   "password": "secret"
 }
 
+@authToken = {{login.response.body.access_token}}

@@ -20,7 +20,7 @@ type JWTMaker struct {
 	secretKey string
 }
 
-func NewJWTPayloadClaims(payload *Payload) *JWTPayloadClaims {
+func newJWTPayloadClaims(payload *Payload) *JWTPayloadClaims {
 	return &JWTPayloadClaims{
 		Payload: *payload,
 		RegisteredClaims: jwt.RegisteredClaims{
@@ -51,7 +51,7 @@ func (maker *JWTMaker) CreateToken(username string, duration time.Duration) (str
 		return "", err
 	}
 
-	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, NewJWTPayloadClaims(payload))
+	jwtToken := jwt.NewWithClaims(jwt.SigningMethodHS256, newJWTPayloadClaims(payload))
 
 	return jwtToken.SignedString([]byte(maker.secretKey))
 }

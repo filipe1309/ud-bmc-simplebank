@@ -55,7 +55,7 @@ func TestInvalidJWTTokenAlgNone(t *testing.T) {
 	payload, err := NewPayload(util.RandomOwner(), time.Minute)
 	require.NoError(t, err)
 
-	jwtToken := jwt.NewWithClaims(jwt.SigningMethodNone, NewJWTPayloadClaims(payload))
+	jwtToken := jwt.NewWithClaims(jwt.SigningMethodNone, newJWTPayloadClaims(payload))
 	token, err := jwtToken.SignedString(jwt.UnsafeAllowNoneSignatureType)
 	require.NoError(t, err)
 

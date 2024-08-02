@@ -39,3 +39,14 @@ POST http://localhost:8080/users
   "email": "john.doe5@email.com",
   "password": "secret"
 }
+
+###
+
+# Login user
+POST http://localhost:8080/users/login
+
+{
+  "username": "johndoe5",
+  "password": "secret"
+}
+

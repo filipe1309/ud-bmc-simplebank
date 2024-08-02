@@ -492,6 +492,6 @@ Client                                               Server
 	|                        200 OK [account1, account2] |
 ```
 
-JWT: JSON Web Token
-PASETO: Platform-Agnostic Security Tokens
+JWT: JSON Web Token  
+PASETO: Platform-Agnostic Security Tokens  
 

@@ -468,3 +468,30 @@ func TestGetAccountAPI(t *testing.T) {
 ```sh
 migrate create -ext sql -dir db/migration -seq add_users
 ```
+
+### 21. Why PASETO is better than JWT for token-based authentication?
+
+Token-based Authentication:
+
+```
+Client                                               Server
+	| 1. POST /users/login                               |
+	| -------------------------------------------------> |
+	| {username: "user1", password: "password1"}         |
+	|                                                    |
+	|                                   Signed JWT Token |
+	| <------------------------------------------------- |
+	|                   200 OK {access_token: "xxxxx"}   | JWT, PASETO,...
+	|                                                    |
+	| 2. GET /accounts                                   |
+	| -------------------------------------------------> |
+	| Authorization: Bearer xxxxx                        |
+	|                                                    |
+	|                                  Verify JWT Token  |
+	| <------------------------------------------------- |
+	|                        200 OK [account1, account2] |
+```
+
+JWT: JSON Web Token
+PASETO: Platform-Agnostic Security Tokens
+

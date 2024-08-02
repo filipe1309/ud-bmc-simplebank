@@ -35,6 +35,8 @@ Examples of the API requests are in the [api](api.http) file.
 - [gRPC](https://grpc.io/)
 - [Docker](https://www.docker.com/)
 - [Kubernetes](https://kubernetes.io/)
+- [JWT](https://jwt.io/)
+- [PASETO](https://paseto.io/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -132,5 +134,9 @@ make test
 - [Gin](https://gin-gonic.com/)
 - [Viper](https://github.com/spf13/viper)
 - [Go Package Validator](https://github.com/go-playground/validator)
+- [JWT](https://jwt.io/)
+- [Golang JWT](https://github.com/golang-jwt/jwt)
+- [PASETO](https://paseto.io/)
+- [Golang PASETO](https://github.com/o1egl/paseto)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

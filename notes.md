@@ -495,3 +495,122 @@ Client                                               Server
 JWT: JSON Web Token  
 PASETO: Platform-Agnostic Security Tokens  
 
+## Section 3: Deploying the application to production [Docker + Kubernetes + AWS]
+
+### 25. How to build a small Golang Docker image with a multistage Dockerfile
+
+Simple Dockerfile:
+- One stage: 586MB
+
+```dockerfile
+FROM golang:1.22.5-alpine3.20
+WORKDIR /app
+COPY . .
+RUN go build -o main main.go
+
+EXPOSE 8080
+CMD ["/app/main"]
+```
+
+To remove a container or an image:
+```sh
+docker rm <container_id>
+docker rmi <image_id>
+```
+
+Multistage Dockerfile:
+- Two stages: 22.3MB
+
+```dockerfile
+# Build stage
+FROM golang:1.22.5-alpine3.20 AS builder
+WORKDIR /app
+COPY . .
+RUN go build -o main main.go
+
+# Run stage
+FROM alpine:3.20
+WORKDIR /app
+COPY --from=builder /app/main .
+
+EXPOSE 8080
+CMD ["/app/main"]
+```
+
+After creating the Dockerfile:
+
+```sh
+docker build -t simplebank:latest . # build the image
+docker images # list images
+```
+
+```sh
+docker run --name simplebank -p 8080:8080 simplebank:latest # run the container
+docker ps # list containers
+```
+
+```sh
+docker exec -it <container_id> /bin/sh # enter the container
+exit
+```
+
+```sh
+curl -X POST http://localhost:8080/users/login -d '{"username": "user1", "password": "password1"}' -H "Content-Type: application/json"
+```
+
+```sh
+docker stop <container_id> # stop the container
+```
+
+```sh
+docker ps -a # list all containers
+```
+
+```sh
+docker rm simplebank
+```
+
+Run the container with environment variables and release mode:
+```sh
+docker run --name simplebank -p 8080:8080 -e GIN_MODE=release simplebank:latest
+```
+
+simplebank container could not connect to postgres12 container, because they have different IP addresses:
+
+```sh
+docker container inspect postgres12 # NetworkSettings.IPAddress 172.17.0.2
+docker container inspect simplebank # NetworkSettings.IPAddress 172.17.0.3
+```
+
+So, we can set the IP address of the postgres12 container as an environment variable in the simplebank container:
+
+```sh
+docker run --name simplebank -e GIN_MODE=release -e DB_SOURCE="postgresql://root:secret@172.17.0.2:5432/simple_bank?sslmode=disable" -p 8080:8080 simplebank:latest
+```
+
+But, this is not a good practice, because the IP address of the postgres12 container could change.
+
+To solve this problem, we can use the name of the container as the hostname, but not with the default bridge network, because it does not support container name resolution.
+
+```sh
+docker network ls
+docker network inspect bridge
+```
+
+So, we can create a new network:
+
+```sh
+docker network create simplebank-network
+docker network ls
+docker network connect simplebank-network postgres12
+docker network inspect simplebank-network
+docker container inspect postgres12
+```
+
+```sh
+docker run --name simplebank -e GIN_MODE=release -e DB_SOURCE="postgresql://root:secret@postgres12:5432/simple_bank?sslmode=disable" -p 8080:8080 --network simplebank-network simplebank:latest
+```
+
+```sh
+docker network inspect simplebank-network
+```

@@ -156,5 +156,7 @@ make test
 - [Golang PASETO](https://github.com/o1egl/paseto)
 - [VSCode REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
 - [Docker hub golang](https://hub.docker.com/_/golang/)
+- [Docker hub postgres](https://hub.docker.com/_/postgres/)
+- [Wait-for script](https://github.com/eficode/wait-for)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

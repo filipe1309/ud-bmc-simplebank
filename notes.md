@@ -614,3 +614,17 @@ docker run --name simplebank -e GIN_MODE=release -e DB_SOURCE="postgresql://root
 ```sh
 docker network inspect simplebank-network
 ```
+
+### 27. How to write docker-compose file and control service start-up orders
+
+```sh
+touch docker-compose.yml
+```
+
+```sh
+docker-compose up
+```
+
+```sh
+chmod +x start.sh
+```

@@ -495,3 +495,69 @@ Client                                               Server
 JWT: JSON Web Token  
 PASETO: Platform-Agnostic Security Tokens  
 
+## Section 3: Deploying the application to production [Docker + Kubernetes + AWS]
+
+### 25. How to build a small Golang Docker image with a multistage Dockerfile
+
+Simple Dockerfile:
+- One stage: 586MB
+
+```dockerfile
+FROM golang:1.22.5-alpine3.20
+WORKDIR /app
+COPY . .
+RUN go build -o main main.go
+
+EXPOSE 8080
+CMD ["/app/main"]
+```
+
+To remove a container or an image:
+```sh
+docker rm <container_id>
+docker rmi <image_id>
+```
+
+Multistage Dockerfile:
+- Two stages: 22.3MB
+
+```dockerfile
+# Build stage
+FROM golang:1.22.5-alpine3.20 AS builder
+WORKDIR /app
+COPY . .
+RUN go build -o main main.go
+
+# Run stage
+FROM alpine:3.20
+WORKDIR /app
+COPY --from=builder /app/main .
+
+EXPOSE 8080
+CMD ["/app/main"]
+```
+
+After creating the Dockerfile:
+
+```sh
+docker build -t simplebank:latest . # build the image
+docker images # list images
+```
+
+```sh
+docker run -d -p 8080:8080 simplebank:latest # run the container
+docker ps # list containers
+```
+
+```sh
+docker exec -it <container_id> /bin/sh # enter the container
+exit
+```
+
+```sh
+curl -X POST http://localhost:8080/users/login -d '{"username": "user1", "password": "password1"}' -H "Content-Type: application/json"
+```
+
+```sh
+docker stop <container_id> # stop the container
+```

@@ -170,5 +170,10 @@ make test
 - [Docker hub postgres](https://hub.docker.com/_/postgres/)
 - [Wait-for script](https://github.com/eficode/wait-for)
 - [Docker compose](https://docs.docker.com/compose/)
+- [AWS free tier](https://aws.amazon.com/free/)
+- [Creating a container image for use on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/create-container-image.html)
+- [Amazon ECR "Login" Action for GitHub Actions](https://github.com/marketplace/actions/amazon-ecr-login-action-for-github-actions)
+- [Connecting GitHub Actions To AWS Using OIDC](https://www.youtube.com/watch?v=mel6N62WZb0&ab_channel=StratusGrid)
+- [Configuring OpenID Connect in Amazon Web Services](httpshttps://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

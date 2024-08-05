@@ -754,6 +754,3 @@ IAM > Access management > Roles > github-actions-ecr-role > Add permissions > At
 ```sh
 aws iam attach-role-policy --role-name github-actions-ecr-role --policy-arn arn:aws:iam::123123123123:policy/github-actions-ecr-policy
 ```
-
-
-874898405626.dkr.ecr.us-east-1.amazonaws.com/simplebank

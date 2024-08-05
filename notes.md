@@ -754,3 +754,38 @@ IAM > Access management > Roles > github-actions-ecr-role > Add permissions > At
 ```sh
 aws iam attach-role-policy --role-name github-actions-ecr-role --policy-arn arn:aws:iam::123123123123:policy/github-actions-ecr-policy
 ```
+
+### 30. How to create a production database on AWS RDS
+
+Amazon RDS: Relational Database Service
+
+Create a new database on RDS:
+
+```sh
+aws rds create-db-instance --db-instance-identifier simple-bank --db-instance-class db.t3.micro --engine postgres --master-username root --master-user-password secret --allocated-storage 20 --db-name simple_bank --vpc-security-group-ids sg-0a1b2c3d4e5f6g7h8 --availability-zone us-east-1a
+```
+
+Get the creadentionals:
+```sh
+aws rds describe-db-instances --db-instance-identifier simple-bank
+```
+
+Configure the security group to allow connections from anywhere:
+
+```sh
+aws ec2 authorize-security-group-ingress --group-id sg-0a1b2c3d4e5f6g7h8 --protocol tcp --port 5432 --cidr
+```
+
+Update the host and password in `migrationup` of `Makefile`:
+
+```sh
+migrate -path db/migration -database "postgresql://root:<rds_password>@<rds_endpoint>:5432/simple_bank" -verbose up
+```
+
+Then run:
+
+```sh
+make migrateup
+```
+
+

@@ -56,6 +56,8 @@ git clone git@github.com:filipe1309/ud-bmc-simplebank.git
 cd ud-bmc-simplebank
 ```
 
+If you don't want to use docker, you can install the project dependencies and create the database with:
+
 ```sh
 make install
 ```
@@ -71,9 +73,18 @@ make install
 
 ## :runner: Running
 
+With docker:
+
 ```sh
-make server
+docker compose up
 ```
+
+Without docker:
+
+```sh
+make run
+```
+
 > This will run the server at `localhost:8080`
 
 > Access http://localhost
@@ -158,5 +169,6 @@ make test
 - [Docker hub golang](https://hub.docker.com/_/golang/)
 - [Docker hub postgres](https://hub.docker.com/_/postgres/)
 - [Wait-for script](https://github.com/eficode/wait-for)
+- [Docker compose](https://docs.docker.com/compose/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

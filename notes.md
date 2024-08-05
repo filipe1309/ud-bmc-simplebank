@@ -628,3 +628,132 @@ docker-compose up
 ```sh
 chmod +x start.sh
 ```
+
+### 29. Auto build & push docker image to AWS ECR with Github Actions
+
+Amazon ECR: Elastic Container Registry
+
+Create a new private repository in ECR:
+
+```sh
+aws ecr create-repository --repository-name simplebank
+```
+
+#### Push commands for simplebank
+
+1. Retrieve an authentication token and authenticate your Docker client to your registry. Use the AWS CLI:
+
+```sh
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 123456789012.dkr.ecr.us-east-1.amazonaws.com
+```
+
+2. Build your Docker image using the following command. For information on building a Docker file from scratch see the instructions [here](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/create-container-image.html) . You can skip this step if your image is already built:
+```sh
+docker build -t simplebank .
+```
+
+3. After the build completes, tag your image so you can push the image to this repository:
+
+```sh
+docker tag simplebank:latest 123456789012.dkr.ecr.us-east-1.amazonaws.com/simplebank:latest
+```
+
+4. Run the following command to push this image to your newly created AWS repository:
+
+```sh
+docker push 123456789012.dkr.ecr.us-east-1.amazonaws.com/simplebank:latest
+```
+
+Connecting GitHub Actions To AWS Using OIDC
+
+```sh
+aws sts get-caller-identity
+```
+On the IAM console, add a new identity provider:
+> https://token.actions.githubusercontent.com is the URL of the GitHub Actions OIDC provider
+> 
+> sts.amazonaws.com is the audience of the token
+
+```sh
+aws iam create-open-id-connect-provider --url https://token.actions.githubusercontent.com --client-id-list sts.amazonaws.com
+```
+
+```sh
+aws iam get-open-id-connect-provider --open-id-connect-provider-arn arn:aws:iam::123123123123:oidc-provider/token.actions.githubusercontent.com
+```
+
+Set a custom policy for the identity provider:
+IAM > Access management > Roles > Create role > Custom trust policy
+
+```sh
+aws iam create-policy --policy-name github-actions-ecr-policy --policy-document file://policy.json
+```
+
+```json
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": "sts:AssumeRoleWithWebIdentity",
+			"Principal": {
+				"Federated": "arn:aws:iam::123123123123:oidc-provider/token.actions.githubusercontent.com"
+			},
+			"Condition": {
+				"StringLike": {
+					"token.actions.githubusercontent.com:aud": "sts.amazonaws.com",
+					"token.actions.githubusercontent.com:sub": "repo:filipe1309/ud-bmc-simplebank:*"
+				}
+			}
+		}
+	]
+}
+```
+> Replace `123123123123` with your AWS account ID and `filipe1309/ud-bmc-simplebank` with your GitHub repository
+
+
+Role name: github-actions-ecr-role
+
+Create a new policy:
+
+```json
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Action": [
+        "ecr:BatchCheckLayerAvailability",
+        "ecr:BatchGetImage",
+        "ecr:CompleteLayerUpload",
+        "ecr:GetDownloadUrlForLayer",
+        "ecr:InitiateLayerUpload",
+        "ecr:PutImage",
+        "ecr:UploadLayerPart"
+      ],
+      "Effect": "Allow",
+      "Resource": "arn:aws:ecr:ap-south-1:123123123123:repository/simplebank"
+    },
+    {
+      "Action": [
+        "ecr:GetAuthorizationToken"
+      ],
+      "Effect": "Allow",
+      "Resource": "*"
+    }
+  ]
+}
+```
+
+```sh
+aws iam create-policy --policy-name github-actions-ecr-policy --policy-document file://policy.json
+```
+
+Add the policy to the role:
+IAM > Access management > Roles > github-actions-ecr-role > Add permissions > Attach policies
+
+```sh
+aws iam attach-role-policy --role-name github-actions-ecr-role --policy-arn arn:aws:iam::123123123123:policy/github-actions-ecr-policy
+```
+
+
+874898405626.dkr.ecr.us-east-1.amazonaws.com/simplebank

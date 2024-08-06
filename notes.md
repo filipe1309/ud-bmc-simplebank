@@ -847,3 +847,28 @@ To get the secret in a key=value format and save it to env file:
 aws secretsmanager get-secret-value --secret-id simple_bank --query SecretString --output text | jq -r 'to_entries | map("\(.key)=\(.value)")|.[]' > app.env
 ```
 
+#### Test image from private ECR repository:
+
+
+First, we need to login to the ECR:
+```sh
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin <account_id>.dkr.ecr.us-east-1.amazonaws.com
+```
+
+Then, we can pull the image:
+
+
+```sh
+docker pull <account_id>.dkr.ecr.us-east-1.amazonaws.com/simplebank:<tag>
+```
+> You can get the image url from AWS Console > Amazon ECR > Private registry > Repositories > simplebank
+
+
+```sh
+docker images # list images
+```
+
+```sh
+docker run <image_url>
+```
+

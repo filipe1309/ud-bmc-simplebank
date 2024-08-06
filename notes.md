@@ -789,3 +789,61 @@ make migrateup
 ```
 
 
+### 31. Store & retrieve production secrets with AWS secrets manager
+
+Instal aws cli:
+
+```sh
+brew install awscli
+```
+
+Instal jq:
+
+```sh
+brew install jq
+```
+
+```sh
+aws configure
+```
+> Add your AWS Access Key ID, Secret Access Key, Default region name, Default output format
+
+```sh
+ls -l ~/.aws
+```
+> `config` and `credentials` files
+
+```sh
+
+
+Create a random token symmetric key:
+
+```sh
+openssl rand -hex 64 | head -c 32
+```
+
+
+Amazon Secrets Manager
+
+Create a new secret:
+
+```sh
+aws secretsmanager create-secret --name simple_bank --description "Environment variables and secrets for Simple Bank" --secret-string '{"DB_DRIVER": "postgres", "DB_SOURCE": "postgresql://root:<rds_password>@<rds_endpoint>:5432/simple_bank", "SERVER_ADDRESS": "0.0.0.0:8080", "ACCESS_TOKEN_DURATION": "15m", "TOKEN_SYMMETRIC_KEY": "<random_token>"}'
+```
+
+Get the secret:
+
+```sh
+aws secretsmanager get-secret-value --secret-id simple_bank
+```
+
+```sh
+aws secretsmanager get-secret-value --secret-id simple_bank --query SecretString --output text
+```
+
+To get the secret in a key=value format and save it to env file:
+
+```sh
+aws secretsmanager get-secret-value --secret-id simple_bank --query SecretString --output text | jq -r 'to_entries | map("\(.key)=\(.value)")|.[]' > app.env
+```
+

@@ -755,6 +755,12 @@ IAM > Access management > Roles > github-actions-ecr-role > Add permissions > At
 aws iam attach-role-policy --role-name github-actions-ecr-role --policy-arn arn:aws:iam::123123123123:policy/github-actions-ecr-policy
 ```
 
+Add SecretsManagerReadWrite policy to the role:
+
+```sh
+aws iam attach-role-policy --role-name github-actions-ecr-role --policy-arn arn:aws:iam::aws:policy/SecretsManagerReadWrite
+```
+
 ### 30. How to create a production database on AWS RDS
 
 Amazon RDS: Relational Database Service
@@ -871,4 +877,3 @@ docker images # list images
 ```sh
 docker run -p 8080:8080 <image_url>
 ```
-

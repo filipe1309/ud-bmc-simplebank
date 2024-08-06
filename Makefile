@@ -60,5 +60,6 @@ help:
 	@echo "  make run"
 	@echo "  make rundb"
 	@echo "  make server"
+	@echo "  make mock"
 	@echo "  make test"
 	@echo "  make help"

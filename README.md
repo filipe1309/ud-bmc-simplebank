@@ -177,5 +177,6 @@ make test
 - [Configuring OpenID Connect in Amazon Web Services](httpshttps://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services)
 - [Install or update to the latest version of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 - [jq](https://stedolan.github.io/jq/)
+- [AWS get-login-password](https://docs.aws.amazon.com/cli/latest/reference/ecr/get-login-password.html)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

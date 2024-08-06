@@ -869,6 +869,6 @@ docker images # list images
 ```
 
 ```sh
-docker run <image_url>
+docker run -p 8080:8080 <image_url>
 ```
 

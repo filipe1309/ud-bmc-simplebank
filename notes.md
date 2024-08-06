@@ -749,13 +749,14 @@ aws iam create-policy --policy-name github-actions-ecr-policy --policy-document 
 ```
 
 Add the policy to the role:
-IAM > Access management > Roles > github-actions-ecr-role > Add permissions > Attach policies
+> IAM > Access management > Roles > github-actions-ecr-role > Add permissions > Attach policies > github-actions-ecr-policy
 
 ```sh
 aws iam attach-role-policy --role-name github-actions-ecr-role --policy-arn arn:aws:iam::123123123123:policy/github-actions-ecr-policy
 ```
 
 Add SecretsManagerReadWrite policy to the role:
+> IAM > Roles > github-actions-ecr-role Add permissions > Attach policies > SecretsManagerReadWrite
 
 ```sh
 aws iam attach-role-policy --role-name github-actions-ecr-role --policy-arn arn:aws:iam::aws:policy/SecretsManagerReadWrite

@@ -1067,3 +1067,112 @@ brew install derailed/k9s/k9s
 ```sh
 k9s
 ```
+
+### 34. How to deploy a web app to Kubernetes cluster on AWS EKS
+
+Create a new deployment file:
+
+```sh
+touch eks/deployment.yaml
+```
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-bank-api-deployment
+  labels:
+    app: simple-bank-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-bank-api
+  template:
+    metadata:
+      labels:
+        app: simple-bank-api
+    spec:
+      containers:
+      - name: simple-bank-api
+        image: 123123123123.dkr.ecr.us-east-1.amazonaws.com/simplebank:latest
+        ports:
+        - containerPort: 8080
+```
+
+```sh
+kubectl apply -f eks/deployment.yaml
+```
+
+In k9s, access the deployment and check the logs:
+
+`describe` the deployment pod `simple-bank-api-deployment-<id>` and check the logs  
+If you find `FailedScheduling`, then you need to adjust the capacity (Min, Max, Desired) of the node group. (Auto Scaling group)
+
+Other problems is that our instance type t3.micro can have on 4 pods running at the same time, you can verify that with ENI (Elastic Network Interface) and IP addresses:
+
+# Mapping is calculated from AWS EC2 API using the following formula:
+# * First IP on each ENI is not used for pods
+# * +2 for the pods that use host-networking (AWS CNI and kube-proxy)
+#
+#   # of ENI * (# of IPv4 per ENI - 1) + 2
+#
+# https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI
+...
+t3.micro 4
+...
+
+And the eks cluster already has 4 pods running.
+
+To fix that we need to upgrade the instance type to t3.small:
+
+First delete the node group:
+
+```sh
+aws eks delete-nodegroup --cluster-name simple-bank --nodegroup-name simple-bank-ng
+```
+
+Then create a new node group with t3.small:
+
+```sh
+aws eks create-nodegroup --cluster-name simple-bank --nodegroup-name simple-bank-ng --node-role arn:aws:iam::123123123123:role/AWSEKSNodeRole --subnets subnet-0a1b2c3d4e5f6g7h8 --instance-types t3.small --disk-size 10 --scaling-config minSize=0,maxSize=2,desiredSize=1
+```
+
+Then apply the deployment again:
+
+```sh
+kubectl apply -f eks/deployment.yaml
+```
+
+Now we need to create a service to expose the deployment:
+
+```sh
+touch eks/service.yaml
+```
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-bank-api-service
+spec:
+  selector:
+    app: simple-bank-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+	type: LoadBalancer
+```
+
+```sh
+kubectl apply -f eks/service.yaml
+```
+
+```sh
+kubectl get services
+```
+
+```sh
+nslookup <service_external_ip>
+```

@@ -184,5 +184,9 @@ make test
 - [How do I provide access to other IAM users and roles after cluster creation in Amazon EKS/?](https://repost.aws/knowledge-center/amazon-eks-cluster-access)
 - [Grant IAM users access to Kubernetes with EKS access entries](https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html#creating-access-entries)
 - [K9s](https://k9scli.io/)
+- [Kubernetes Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+- [ENI Max Pods](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/misc/eni-max-pods.txt)
+- [Maximum IP addresses per network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AvailableIpPerENI.html)
+- [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

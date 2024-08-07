@@ -878,3 +878,192 @@ docker images # list images
 ```sh
 docker run -p 8080:8080 <image_url>
 ```
+
+### 32. Kubernetes architecture & How to create an EKS cluster on AWS
+
+Kubernetes Architecture:
+
+- Master Node: Control Plane - Manage worker nodes and Pods of the cluster
+	- API Server: Frontend for the Kubernetes control plane
+	- Scheduler: Assigns Pods to Nodes
+	- Controller Manager: Runs controller processes, such as Node Controller, Job Controller, Endpoint Controller, Service Account & Token Controller
+	- etcd: Key-Value store to store cluster data
+	- Cloud Controller Manager: Interacts with cloud provider's API to manage resources, it has Node Controller, Route Controller, Service Controller, Volume Controller
+
+- Worker Node: Data Plane
+	- Kubelet Agent: Makes sure that containers are running in a Pod
+	- Kube Proxy: Maintains network rules and allows communication between Pods
+	- Container Runtime: Docker, containerd, CRI-O
+
+Amazon EKS: Elastic Kubernetes Service
+
+- Master Node: Managed by AWS
+- Worker Node: Managed by you
+
+#### EKS cluster:
+
+Create a role for the EKS cluster with AmazonEKSClusterPolicy:
+> IAM > Access management > Roles > Create role > AWS service > EKS
+
+```sh
+aws iam create-role --role-name AWSEKSClusterRole --assume-role-policy-document file://eks-trust-policy.json
+```
+
+Create an EKS cluster:
+> IAM > Access management > Roles > AWSEKSClusterRole > Attach policies > AmazonEKSClusterPolicy
+
+```sh
+aws eks create-cluster --name simple-bank --role-arn arn:aws:iam::123123123123:role/AWSEKSClusterRole --resources-vpc-config subnetIds=subnet-0a1b2c3d4e5f6g7h8,securityGroupIds=sg-0a1b2c3d4e5f6g7h8
+```
+
+Get the cluster status:
+
+```sh
+aws eks describe-cluster --name simple-bank
+```
+
+Create a new role (AWSEKSNodeRole) with AmazonEKS_CNI_Policy, AmazonEKSWorkerNodePolicy, and AmazonEC2ContainerRegistryReadOnly policies:
+> IAM > Access management > Roles > Create role > AWS service > EC2
+
+```sh
+aws iam create-role --role-name AWSEKSNodeRole --assume-role-policy-document file://eks-trust-policy.json
+```
+
+Create a node group:
+
+```sh
+aws eks create-nodegroup --cluster-name simple-bank --nodegroup-name simple-bank-ng --node-role arn:aws:iam::123123123123:role/AWSEKSNodeRole --subnets subnet-0a1b2c3d4e5f6g7h8 --instance-types t3.micro --disk-size 20 --scaling-config minSize=1,maxSize=2,desiredSize=1
+```
+
+### 33. How to use kubectl &amp; k9s to connect to a kubernetes cluster on AWS EKS
+
+Kubectl: Kubernetes Command Line Tool
+
+```sh
+brew install kubectl
+kubectl version --client
+```
+
+Verify kubectl configuration:
+
+```sh
+kubectl cluster-info
+```
+
+Add user group permissions to allow your IAM user to access the EKS cluster:
+> IAM > Access management > Users > github-cli > Groups > [Select the group] > Add permissions > Create policy > JSON > Policy name: EKSFullAccess
+
+```json
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": "eks:*",
+			"Resource": "*"
+		}
+	]
+}
+```sh
+
+Get the kubeconfig file and update the `~/.kube/config` file:
+
+```sh
+aws eks update-kubeconfig --name simple-bank --region us-east-1
+cat ~/.kube/config
+```
+
+To change to another cluster:
+
+```sh
+kubectl config get-contexts
+kubectl config use-context <context_name>
+```
+
+Verify the connection:
+
+```sh
+kubectl cluster-info
+```
+
+If you get the error: You must be logged in to the server (Unauthorized), then add designated_user to the ConfigMap if cluster_creator is an IAM user
+:
+
+```sh
+aws sts get-caller-identity # verify which user you are using
+```
+
+Create a new access key for the root:
+> IAM > Access management > Users > root > Security credentials > Create access key
+
+```sh
+aws iam create-access-key --user-name root
+```
+
+Add the access key to the aws cli:
+
+```sh
+vi ~/.aws/credentials
+```
+
+Test with:
+
+```sh
+kubectl get nodes
+```
+
+To switch to another user:
+
+```sh
+export AWS_PROFILE=github
+export AWS_PROFILE=default
+```
+
+#### To allow github user to access the EKS cluster:
+
+```sh
+touch aws-auth.yaml
+```
+
+Configure the `aws-auth.yaml` file:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapUsers: |
+    - userarn: arn:aws:iam::123123123123:user/github-cli
+      username: aws-cli
+      groups:
+        - system:masters
+```
+
+Apply the configuration:
+
+```sh
+kubectl apply -f eks/aws-auth.yaml
+```
+
+#### Other commands:
+
+
+```sh
+kubectl get services
+kubectl get pods
+kubectl get deployments
+kubectl get nodes
+kubectl get namespaces
+```
+
+K9s: Kubernetes CLI To Manage Your Clusters In Style
+
+```sh
+brew install derailed/k9s/k9s
+```
+
+```sh
+k9s
+```

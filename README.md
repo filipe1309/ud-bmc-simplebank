@@ -188,5 +188,9 @@ make test
 - [ENI Max Pods](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/misc/eni-max-pods.txt)
 - [Maximum IP addresses per network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AvailableIpPerENI.html)
 - [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
+- [Kubernetes Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+- [Kubernetes Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/)
+- [Kubernetes Ingress Nginx](https://kubernetes.github.io/ingress-nginx/)
+- [Ingress-Nginx Controller](https://kubernetes.github.io/ingress-nginx/deploy/#aws)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

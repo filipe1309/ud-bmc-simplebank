@@ -1111,6 +1111,7 @@ If you find `FailedScheduling`, then you need to adjust the capacity (Min, Max, 
 
 Other problems is that our instance type t3.micro can have on 4 pods running at the same time, you can verify that with ENI (Elastic Network Interface) and IP addresses:
 
+```
 # Mapping is calculated from AWS EC2 API using the following formula:
 # * First IP on each ENI is not used for pods
 # * +2 for the pods that use host-networking (AWS CNI and kube-proxy)
@@ -1121,6 +1122,7 @@ Other problems is that our instance type t3.micro can have on 4 pods running at 
 ...
 t3.micro 4
 ...
+```
 
 And the eks cluster already has 4 pods running.
 
@@ -1175,4 +1177,156 @@ kubectl get services
 
 ```sh
 nslookup <service_external_ip>
+```
+
+### 35. Register a domain &amp; set up A-record using Route53
+
+Amazon Route 53: Domain Name System (DNS) web service
+
+Register a new domain:
+
+```sh
+aws route53domains register-domain --domain-name simplebank.io --duration-in-years 1 --auto-renew
+```
+
+Get the domain details:
+
+```sh
+aws route53domains get-domain-detail --domain-name simplebank.io
+```
+
+Create a new A (address) record, to route traffic to the EKS cluster:
+> Route 53 > Hosted zones > simplebank.io > Create record set > Type: A - IPv4 address > Alias: Yes > Alias target: Load balancer
+
+```sh
+aws route53 change-resource-record-sets --hosted-zone-id Z123123123123 --change-batch file://route53/change-resource-record-sets.json
+```
+
+With Route traffic to "Alias to Network Load Balancer"
+
+```json
+{
+	"Comment": "Update record to route traffic to the EKS cluster",
+	"Changes": [
+		{
+			"Action": "UPSERT",
+			"ResourceRecordSet": {
+				"Name": "api.simplebank.io",
+				"Type": "A",
+				"AliasTarget": {
+					"HostedZoneId": "Z123123123123",
+					"DNSName": "<simple-bank-api-service-id>.us-east-1.elb.amazonaws.com",
+					"EvaluateTargetHealth": false,
+					"Region": "us-east-1"
+				}
+			}
+		}
+	]
+}
+```
+
+```sh
+nslookup api.simplebank.io
+```
+
+### 36. How to use Ingress to route traffics to different services in Kubernetes
+
+Now ou service is exposed to the internet by setting its type to LoadBalancer, and adding its external IP to the A record in Route 53.
+
+This is fine as long as we just have one service, but if we have multiple services, we need to create a lot of A records in Route 53.
+
+To solve this problem, we can use an Ingress Controller, which will allow us to create a single A record in Route 53, and then route traffic to the correct service based on the URL path. Ingress also provides SSL termination, load balancing, and name-based virtual hosting.
+
+First change the service type to ClusterIP:
+
+```sh
+kubectl apply -f eks/service.yaml
+```
+
+Then create a new Ingress:
+
+```sh
+touch eks/ingress.yaml
+```
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: nginx
+spec:
+  controller: k8s.io/ingress-nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: simple-bank-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.simple-bank.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: simple-bank-api-service
+                port:
+                  number: 80
+
+```
+
+```sh
+kubectl apply -f eks/ingress.yaml
+```
+
+```sh
+kubectl get ingress
+```
+
+```sh
+nslookup api.simple-bank.io
+```
+
+Nginx Ingress Controller:
+
+```sh
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.1/deploy/static/provider/aws/deploy.yaml
+```
+
+```sh
+kubectl get pods -n ingress-nginx
+```
+
+Update the A record in Route 53 to point to the Ingress Address URL:
+> Route 53 > Hosted zones > simplebank.io > Update record set > Type: A - IPv4 address > Alias: Yes > Alias target: Ingress Address
+
+```sh
+aws route53 change-resource-record-sets --hosted-zone-id Z123123123123 --change-batch file://route53/change-resource-record-sets-ingress.json
+```
+
+```json
+{
+	"Comment": "Update record to route traffic to the Ingress Controller",
+	"Changes": [
+		{
+			"Action": "UPSERT",
+			"ResourceRecordSet": {
+				"Name": "api.simplebank.io",
+				"Type": "A",
+				"AliasTarget": {
+					"HostedZoneId": "Z123123123123",
+					"DNSName": "<ingress-address-id>.us-east-1.elb.amazonaws.com",
+					"EvaluateTargetHealth": false,
+					"Region": "us-east-1"
+				}
+			}
+		}
+	]
+}
+```
+
+```sh
+nslookup api.simplebank.io
 ```

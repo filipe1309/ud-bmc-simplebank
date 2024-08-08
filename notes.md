@@ -1330,3 +1330,79 @@ aws route53 change-resource-record-sets --hosted-zone-id Z123123123123 --change-
 ```sh
 nslookup api.simplebank.io
 ```
+
+### 37. Auto issue &amp; renew TLS certificates with cert-manager and Let's Encrypt
+
+Cert-Manager: Kubernetes certificate management controller
+
+```sh
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.2/cert-manager.yaml
+```
+
+Create a new ICME (Issuer) for Let's Encrypt:
+
+```sh
+touch eks/issuer.yaml
+```
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    email: user@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource that will be used to store the account's private key.
+      name: letsencrypt-account-private-key
+    # Add a single challenge solver, HTTP01 using nginx
+    solvers:
+    - http01:
+        ingress:
+          ingressClassName: nginx
+```
+
+```sh
+kubectl apply -f eks/issuer.yaml
+```
+
+After this you need to update the Ingress to use the TLS certificate:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: nginx
+spec:
+  controller: k8s.io/ingress-nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: simple-bank-ingress
+	anotations:
+		cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.simple-bank.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: simple-bank-api-service
+                port:
+                  number: 80
+	tls:
+		- hosts:
+			- api.simple-bank.io
+		secretName: simple-bank-api-cert
+```
+
+```sh
+kubectl apply -f eks/ingress.yaml
+```

@@ -192,5 +192,9 @@ make test
 - [Kubernetes Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/)
 - [Kubernetes Ingress Nginx](https://kubernetes.github.io/ingress-nginx/)
 - [Ingress-Nginx Controller](https://kubernetes.github.io/ingress-nginx/deploy/#aws)
+- [A complete overview of SSL/TLS and its cryptographic system](https://www.youtube.com/watch?v=-f4Gbk-U758)
+- [Kubernetes TLS](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)
+- [cert-manager](https://cert-manager.io/docs/)
+- [Let's Encrypt](https://letsencrypt.org/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

@@ -196,5 +196,6 @@ make test
 - [Kubernetes TLS](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)
 - [cert-manager](https://cert-manager.io/docs/)
 - [Let's Encrypt](https://letsencrypt.org/)
+- [Kubectl tool installer](https://github.com/marketplace/actions/kubectl-tool-installer)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

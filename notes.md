@@ -1406,3 +1406,11 @@ spec:
 ```sh
 kubectl apply -f eks/ingress.yaml
 ```
+
+### 38. Automatic deploy to Kubernetes with Github Action
+
+Get last stable version of kubectl:
+
+```sh
+curl -L https://storage.googleapis.com/kubernetes-release/release/stable.txt
+```

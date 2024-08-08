@@ -878,3 +878,539 @@ docker images # list images
 ```sh
 docker run -p 8080:8080 <image_url>
 ```
+
+### 32. Kubernetes architecture & How to create an EKS cluster on AWS
+
+Kubernetes Architecture:
+
+- Master Node: Control Plane - Manage worker nodes and Pods of the cluster
+	- API Server: Frontend for the Kubernetes control plane
+	- Scheduler: Assigns Pods to Nodes
+	- Controller Manager: Runs controller processes, such as Node Controller, Job Controller, Endpoint Controller, Service Account & Token Controller
+	- etcd: Key-Value store to store cluster data
+	- Cloud Controller Manager: Interacts with cloud provider's API to manage resources, it has Node Controller, Route Controller, Service Controller, Volume Controller
+
+- Worker Node: Data Plane
+	- Kubelet Agent: Makes sure that containers are running in a Pod
+	- Kube Proxy: Maintains network rules and allows communication between Pods
+	- Container Runtime: Docker, containerd, CRI-O
+
+Amazon EKS: Elastic Kubernetes Service
+
+- Master Node: Managed by AWS
+- Worker Node: Managed by you
+
+#### EKS cluster:
+
+Create a role for the EKS cluster with AmazonEKSClusterPolicy:
+> IAM > Access management > Roles > Create role > AWS service > EKS
+
+```sh
+aws iam create-role --role-name AWSEKSClusterRole --assume-role-policy-document file://eks-trust-policy.json
+```
+
+Create an EKS cluster:
+> IAM > Access management > Roles > AWSEKSClusterRole > Attach policies > AmazonEKSClusterPolicy
+
+```sh
+aws eks create-cluster --name simple-bank --role-arn arn:aws:iam::123123123123:role/AWSEKSClusterRole --resources-vpc-config subnetIds=subnet-0a1b2c3d4e5f6g7h8,securityGroupIds=sg-0a1b2c3d4e5f6g7h8
+```
+
+Get the cluster status:
+
+```sh
+aws eks describe-cluster --name simple-bank
+```
+
+Create a new role (AWSEKSNodeRole) with AmazonEKS_CNI_Policy, AmazonEKSWorkerNodePolicy, and AmazonEC2ContainerRegistryReadOnly policies:
+> IAM > Access management > Roles > Create role > AWS service > EC2
+
+```sh
+aws iam create-role --role-name AWSEKSNodeRole --assume-role-policy-document file://eks-trust-policy.json
+```
+
+Create a node group:
+
+```sh
+aws eks create-nodegroup --cluster-name simple-bank --nodegroup-name simple-bank-ng --node-role arn:aws:iam::123123123123:role/AWSEKSNodeRole --subnets subnet-0a1b2c3d4e5f6g7h8 --instance-types t3.micro --disk-size 20 --scaling-config minSize=1,maxSize=2,desiredSize=1
+```
+
+### 33. How to use kubectl &amp; k9s to connect to a kubernetes cluster on AWS EKS
+
+Kubectl: Kubernetes Command Line Tool
+
+```sh
+brew install kubectl
+kubectl version --client
+```
+
+Verify kubectl configuration:
+
+```sh
+kubectl cluster-info
+```
+
+Add user group permissions to allow your IAM user to access the EKS cluster:
+> IAM > Access management > Users > github-cli > Groups > [Select the group] > Add permissions > Create policy > JSON > Policy name: EKSFullAccess
+
+```json
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": "eks:*",
+			"Resource": "*"
+		}
+	]
+}
+```sh
+
+Get the kubeconfig file and update the `~/.kube/config` file:
+
+```sh
+aws eks update-kubeconfig --name simple-bank --region us-east-1
+cat ~/.kube/config
+```
+
+To change to another cluster:
+
+```sh
+kubectl config get-contexts
+kubectl config use-context <context_name>
+```
+
+Verify the connection:
+
+```sh
+kubectl cluster-info
+```
+
+If you get the error: You must be logged in to the server (Unauthorized), then add designated_user to the ConfigMap if cluster_creator is an IAM user
+:
+
+```sh
+aws sts get-caller-identity # verify which user you are using
+```
+
+Create a new access key for the root:
+> IAM > Access management > Users > root > Security credentials > Create access key
+
+```sh
+aws iam create-access-key --user-name root
+```
+
+Add the access key to the aws cli:
+
+```sh
+vi ~/.aws/credentials
+```
+
+Test with:
+
+```sh
+kubectl get nodes
+```
+
+To switch to another user:
+
+```sh
+export AWS_PROFILE=github
+export AWS_PROFILE=default
+```
+
+#### To allow github user to access the EKS cluster:
+
+```sh
+touch aws-auth.yaml
+```
+
+Configure the `aws-auth.yaml` file:
+
+```yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: aws-auth
+  namespace: kube-system
+data:
+  mapUsers: |
+    - userarn: arn:aws:iam::123123123123:user/github-cli
+      username: aws-cli
+      groups:
+        - system:masters
+```
+
+Apply the configuration:
+
+```sh
+kubectl apply -f eks/aws-auth.yaml
+```
+
+#### Other commands:
+
+
+```sh
+kubectl get services
+kubectl get pods
+kubectl get deployments
+kubectl get nodes
+kubectl get namespaces
+```
+
+K9s: Kubernetes CLI To Manage Your Clusters In Style
+
+```sh
+brew install derailed/k9s/k9s
+```
+
+```sh
+k9s
+```
+
+### 34. How to deploy a web app to Kubernetes cluster on AWS EKS
+
+Create a new deployment file:
+
+```sh
+touch eks/deployment.yaml
+```
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-bank-api-deployment
+  labels:
+    app: simple-bank-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: simple-bank-api
+  template:
+    metadata:
+      labels:
+        app: simple-bank-api
+    spec:
+      containers:
+      - name: simple-bank-api
+        image: 123123123123.dkr.ecr.us-east-1.amazonaws.com/simplebank:latest
+        ports:
+        - containerPort: 8080
+```
+
+```sh
+kubectl apply -f eks/deployment.yaml
+```
+
+In k9s, access the deployment and check the logs:
+
+`describe` the deployment pod `simple-bank-api-deployment-<id>` and check the logs  
+If you find `FailedScheduling`, then you need to adjust the capacity (Min, Max, Desired) of the node group. (Auto Scaling group)
+
+Other problems is that our instance type t3.micro can have on 4 pods running at the same time, you can verify that with ENI (Elastic Network Interface) and IP addresses:
+
+```
+# Mapping is calculated from AWS EC2 API using the following formula:
+# * First IP on each ENI is not used for pods
+# * +2 for the pods that use host-networking (AWS CNI and kube-proxy)
+#
+#   # of ENI * (# of IPv4 per ENI - 1) + 2
+#
+# https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI
+...
+t3.micro 4
+...
+```
+
+And the eks cluster already has 4 pods running.
+
+To fix that we need to upgrade the instance type to t3.small:
+
+First delete the node group:
+
+```sh
+aws eks delete-nodegroup --cluster-name simple-bank --nodegroup-name simple-bank-ng
+```
+
+Then create a new node group with t3.small:
+
+```sh
+aws eks create-nodegroup --cluster-name simple-bank --nodegroup-name simple-bank-ng --node-role arn:aws:iam::123123123123:role/AWSEKSNodeRole --subnets subnet-0a1b2c3d4e5f6g7h8 --instance-types t3.small --disk-size 10 --scaling-config minSize=0,maxSize=2,desiredSize=1
+```
+
+Then apply the deployment again:
+
+```sh
+kubectl apply -f eks/deployment.yaml
+```
+
+Now we need to create a service to expose the deployment:
+
+```sh
+touch eks/service.yaml
+```
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-bank-api-service
+spec:
+  selector:
+    app: simple-bank-api
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+	type: LoadBalancer
+```
+
+```sh
+kubectl apply -f eks/service.yaml
+```
+
+```sh
+kubectl get services
+```
+
+```sh
+nslookup <service_external_ip>
+```
+
+### 35. Register a domain &amp; set up A-record using Route53
+
+Amazon Route 53: Domain Name System (DNS) web service
+
+Register a new domain:
+
+```sh
+aws route53domains register-domain --domain-name simplebank.io --duration-in-years 1 --auto-renew
+```
+
+Get the domain details:
+
+```sh
+aws route53domains get-domain-detail --domain-name simplebank.io
+```
+
+Create a new A (address) record, to route traffic to the EKS cluster:
+> Route 53 > Hosted zones > simplebank.io > Create record set > Type: A - IPv4 address > Alias: Yes > Alias target: Load balancer
+
+```sh
+aws route53 change-resource-record-sets --hosted-zone-id Z123123123123 --change-batch file://route53/change-resource-record-sets.json
+```
+
+With Route traffic to "Alias to Network Load Balancer"
+
+```json
+{
+	"Comment": "Update record to route traffic to the EKS cluster",
+	"Changes": [
+		{
+			"Action": "UPSERT",
+			"ResourceRecordSet": {
+				"Name": "api.simplebank.io",
+				"Type": "A",
+				"AliasTarget": {
+					"HostedZoneId": "Z123123123123",
+					"DNSName": "<simple-bank-api-service-id>.us-east-1.elb.amazonaws.com",
+					"EvaluateTargetHealth": false,
+					"Region": "us-east-1"
+				}
+			}
+		}
+	]
+}
+```
+
+```sh
+nslookup api.simplebank.io
+```
+
+### 36. How to use Ingress to route traffics to different services in Kubernetes
+
+Now ou service is exposed to the internet by setting its type to LoadBalancer, and adding its external IP to the A record in Route 53.
+
+This is fine as long as we just have one service, but if we have multiple services, we need to create a lot of A records in Route 53.
+
+To solve this problem, we can use an Ingress Controller, which will allow us to create a single A record in Route 53, and then route traffic to the correct service based on the URL path. Ingress also provides SSL termination, load balancing, and name-based virtual hosting.
+
+First change the service type to ClusterIP:
+
+```sh
+kubectl apply -f eks/service.yaml
+```
+
+Then create a new Ingress:
+
+```sh
+touch eks/ingress.yaml
+```
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: nginx
+spec:
+  controller: k8s.io/ingress-nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: simple-bank-ingress
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.simple-bank.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: simple-bank-api-service
+                port:
+                  number: 80
+
+```
+
+```sh
+kubectl apply -f eks/ingress.yaml
+```
+
+```sh
+kubectl get ingress
+```
+
+```sh
+nslookup api.simple-bank.io
+```
+
+Nginx Ingress Controller:
+
+```sh
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.11.1/deploy/static/provider/aws/deploy.yaml
+```
+
+```sh
+kubectl get pods -n ingress-nginx
+```
+
+Update the A record in Route 53 to point to the Ingress Address URL:
+> Route 53 > Hosted zones > simplebank.io > Update record set > Type: A - IPv4 address > Alias: Yes > Alias target: Ingress Address
+
+```sh
+aws route53 change-resource-record-sets --hosted-zone-id Z123123123123 --change-batch file://route53/change-resource-record-sets-ingress.json
+```
+
+```json
+{
+	"Comment": "Update record to route traffic to the Ingress Controller",
+	"Changes": [
+		{
+			"Action": "UPSERT",
+			"ResourceRecordSet": {
+				"Name": "api.simplebank.io",
+				"Type": "A",
+				"AliasTarget": {
+					"HostedZoneId": "Z123123123123",
+					"DNSName": "<ingress-address-id>.us-east-1.elb.amazonaws.com",
+					"EvaluateTargetHealth": false,
+					"Region": "us-east-1"
+				}
+			}
+		}
+	]
+}
+```
+
+```sh
+nslookup api.simplebank.io
+```
+
+### 37. Auto issue &amp; renew TLS certificates with cert-manager and Let's Encrypt
+
+Cert-Manager: Kubernetes certificate management controller
+
+```sh
+kubectl apply -f https://github.com/cert-manager/cert-manager/releases/download/v1.15.2/cert-manager.yaml
+```
+
+Create a new ICME (Issuer) for Let's Encrypt:
+
+```sh
+touch eks/issuer.yaml
+```
+
+```yaml
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt
+spec:
+  acme:
+    email: user@example.com
+    server: https://acme-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      # Secret resource that will be used to store the account's private key.
+      name: letsencrypt-account-private-key
+    # Add a single challenge solver, HTTP01 using nginx
+    solvers:
+    - http01:
+        ingress:
+          ingressClassName: nginx
+```
+
+```sh
+kubectl apply -f eks/issuer.yaml
+```
+
+After this you need to update the Ingress to use the TLS certificate:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: IngressClass
+metadata:
+  name: nginx
+spec:
+  controller: k8s.io/ingress-nginx
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: simple-bank-ingress
+	anotations:
+		cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: api.simple-bank.io
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: simple-bank-api-service
+                port:
+                  number: 80
+	tls:
+		- hosts:
+			- api.simple-bank.io
+		secretName: simple-bank-api-cert
+```
+
+```sh
+kubectl apply -f eks/ingress.yaml
+```
+
+### 38. Automatic deploy to Kubernetes with Github Action
+
+Get last stable version of kubectl:
+
+```sh
+curl -L https://storage.googleapis.com/kubernetes-release/release/stable.txt
+```

@@ -35,6 +35,7 @@ Notes taken during the course are in the [notes](notes.md) file.
 - [Kubernetes](https://kubernetes.io/)
 - [JWT](https://jwt.io/)
 - [PASETO](https://paseto.io/)
+- [AWS](https://aws.amazon.com/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -174,9 +175,27 @@ make test
 - [Creating a container image for use on Amazon ECS](https://docs.aws.amazon.com/AmazonECS/latest/developerguide/create-container-image.html)
 - [Amazon ECR "Login" Action for GitHub Actions](https://github.com/marketplace/actions/amazon-ecr-login-action-for-github-actions)
 - [Connecting GitHub Actions To AWS Using OIDC](https://www.youtube.com/watch?v=mel6N62WZb0&ab_channel=StratusGrid)
-- [Configuring OpenID Connect in Amazon Web Services](httpshttps://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services)
+- [Configuring OpenID Connect in Amazon Web Services](https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-amazon-web-services)
 - [Install or update to the latest version of the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
 - [jq](https://stedolan.github.io/jq/)
 - [AWS get-login-password](https://docs.aws.amazon.com/cli/latest/reference/ecr/get-login-password.html)
+- [Kubernetes](https://kubernetes.io/)
+- [Kubernetes Install Tools kubectl](https://kubernetes.io/docs/tasks/tools/)
+- [How do I provide access to other IAM users and roles after cluster creation in Amazon EKS/?](https://repost.aws/knowledge-center/amazon-eks-cluster-access)
+- [Grant IAM users access to Kubernetes with EKS access entries](https://docs.aws.amazon.com/eks/latest/userguide/access-entries.html#creating-access-entries)
+- [K9s](https://k9scli.io/)
+- [Kubernetes Deployments](https://kubernetes.io/docs/concepts/workloads/controllers/deployment/)
+- [ENI Max Pods](https://github.com/aws/amazon-vpc-cni-k8s/blob/master/misc/eni-max-pods.txt)
+- [Maximum IP addresses per network interface](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AvailableIpPerENI.html)
+- [Kubernetes Services](https://kubernetes.io/docs/concepts/services-networking/service/)
+- [Kubernetes Ingress](https://kubernetes.io/docs/concepts/services-networking/ingress/)
+- [Kubernetes Ingress Controller](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/)
+- [Kubernetes Ingress Nginx](https://kubernetes.github.io/ingress-nginx/)
+- [Ingress-Nginx Controller](https://kubernetes.github.io/ingress-nginx/deploy/#aws)
+- [A complete overview of SSL/TLS and its cryptographic system](https://www.youtube.com/watch?v=-f4Gbk-U758)
+- [Kubernetes TLS](https://kubernetes.io/docs/concepts/services-networking/ingress/#tls)
+- [cert-manager](https://cert-manager.io/docs/)
+- [Let's Encrypt](https://letsencrypt.org/)
+- [Kubectl tool installer](https://github.com/marketplace/actions/kubectl-tool-installer)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

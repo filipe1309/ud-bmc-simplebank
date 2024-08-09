@@ -203,5 +203,8 @@ make test
 - [cert-manager](https://cert-manager.io/docs/)
 - [Let's Encrypt](https://letsencrypt.org/)
 - [Kubectl tool installer](https://github.com/marketplace/actions/kubectl-tool-installer)
+- [vscode-dbml](https://marketplace.visualstudio.com/items?itemName=matt-meyers.vscode-dbml)
+- [dbdocs.io](https://dbdocs.io/docs)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

@@ -1,4 +1,4 @@
-.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1 up
+.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1 up db_docs db_schema
 
 DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 
@@ -28,6 +28,12 @@ migratedown:
 
 migratedown1:
 	migrate -path db/migration -database "$(DB_URL)" -verbose down 1
+
+db_docs:
+	dbdocs build doc/db.dbml
+
+db_schema:
+	dbml2sql --postgres -o db/schema.sql doc/db.dbml
 
 sqlc:
 	sqlc generate

@@ -1463,3 +1463,54 @@ migrate create -ext sql -dir db/migration -seq add_sessions
 # OR make migration-create name=add_sessions
 ```
 
+### 40. Generate DB documentation page and schema SQL dump from DBML
+
+#### DBDocs: Generate beautiful documentation for your database
+
+```sh
+npm install -g dbdocs
+dbdocs
+```
+```sh
+touch doc/db.dbml
+```
+
+```dbml
+Project simple_bank {
+  database_type: 'PostgreSQL'
+  Note: '''
+    # Simple Bank Database
+  '''
+}
+
+Table users as U {
+  username varchar [pk]
+  hashed_password varchar [not null]
+  full_name varchar [not null]
+  email varchar [unique, not null]
+  password_changed_at timestamptz [not null, default: '0001-01-01 00:00:00Z']
+  created_at timestamptz [not null, default: `now()`]
+}
+```
+
+```sh
+dbdocs build doc/db.dbml
+```
+
+```sh
+dbdocs password --set secret --project simple_bank
+```
+
+to remove a project:
+
+```sh
+dbdocs remove simple_bank
+```
+
+#### DBML CLI: Generate SQL schema dump from DBML
+
+```sh
+npm install -g @dbml/cli
+dbml2sql --postgres -o db/schema.sql doc/db.dbml
+```
+

@@ -1,4 +1,4 @@
-.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1
+.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1 up
 
 DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 
@@ -49,7 +49,10 @@ stop:
 rundb:
 	docker exec -it postgres12 psql -U root -d simple_bank
 
-server:
+updb:
+	docker compose up postgres -d
+
+server: up migrateup
 	go run main.go
 
 mock:

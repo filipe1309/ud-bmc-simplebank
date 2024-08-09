@@ -13,6 +13,10 @@ createdb:
 dropdb:
 	docker exec -it postgres12 dropdb simple_bank
 
+# example: make migration-create name=create_users_table
+migration-create:
+	migrate create -ext sql -dir db/migration -seq $(name)
+
 migrateup:
 	migrate -path db/migration -database "$(DB_URL)" -verbose up
 
@@ -34,8 +38,13 @@ test:
 	go test -v -cover ./...
 
 # run node
-run: server
-	@echo "🏁 Running code..."
+run: 
+	@echo "🚀 Running server & db containers..."
+	docker compose up --force-recreate
+
+stop:
+	@echo "🛑 Stopping server & db containers..."
+	docker compose down
 
 rundb:
 	docker exec -it postgres12 psql -U root -d simple_bank
@@ -52,12 +61,14 @@ help:
 	@echo "  make postgres"
 	@echo "  make createdb"
 	@echo "  make dropdb"
+	@echo "  make migration-create name=<migration-name>"
 	@echo "  make migrateup"
 	@echo "  make migrateup1"
 	@echo "  make migratedown"
 	@echo "  make migratedown1"
 	@echo "  make sqlc"
 	@echo "  make run"
+	@echo "  make stop"
 	@echo "  make rundb"
 	@echo "  make server"
 	@echo "  make mock"

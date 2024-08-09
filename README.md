@@ -77,16 +77,20 @@ make install
 With docker:
 
 ```sh
-docker compose up
+make run
 ```
 
 Without docker:
 
 ```sh
-make run
+make postgres
 ```
 
-> This will run the server at `localhost:8080`
+```sh
+make server
+```
+
+> This will run the server at `localhost:8080` and the database at `localhost:5432`.
 
 > Access http://localhost
 
@@ -100,6 +104,8 @@ table with API, name, and rule:
 
 | API | Name | Rule |
 | --- | --- | --- |
+| `POST /users/login` | Login | A user can log in with email and password |
+| `POST /tokens/renew-access-token` | Renew access token | A user can renew his/her access token with a valid refresh token |
 | `POST /accounts` | Create a new account | A logged user can only create an account for himself/herself |
 | `GET /accounts/:id` | Get an account by id | A logged user can only get accounts that belong to himself/herself |
 | `GET /accounts` | List accounts | A logged user can only list accounts that belong to himself/herself |

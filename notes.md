@@ -473,6 +473,8 @@ migrate create -ext sql -dir db/migration -seq add_users
 
 Token-based Authentication:
 
+Access Token: Used to access protected resources
+
 ```
 Client                                               Server
 	| 1. POST /users/login                               |
@@ -1414,3 +1416,50 @@ Get last stable version of kubectl:
 ```sh
 curl -L https://storage.googleapis.com/kubernetes-release/release/stable.txt
 ```
+
+## Section 4: Advanced Backend Topics [Sessions + gRPC]
+
+### 39. How to manage user session with refresh token
+
+Session Management (access token (10-15 min) + refresh token (1-7 days))
+
+- Access Token: Short-lived token to access protected resources
+- Refresh Token: Long-lived token to get a new access token
+
+
+```
+Client                                               Server
+	| 1. POST /users/login                               |
+	| -------------------------------------------------> |
+	| {username: "user1", password: "password1"}         |
+	|                                                    |
+	|                                       Signed Token |
+	| <------------------------------------------------- |
+	|               200 OK {access_token, refresh_token} | JWT, PASETO,...
+	|                                                    |
+	| 2. GET /accounts                                   |
+	| -------------------------------------------------> |
+	| Authorization: Bearer access_token                 |
+	|                                                    |
+	|                                       Verify Token |
+	| <------------------------------------------------- |
+	|                        200 OK [account1, account2] |
+	|                                                    |
+	| After access_token expires...                      |
+	|                                                    |
+	| 3. POST /tokens/renew-acess                        |
+	| -------------------------------------------------> |
+	| Authorization: Bearer refresh_token                |
+	|                                                    |
+	|                                       Verify Token | is blocked?
+	| <------------------------------------------------- |
+	|               200 OK {access_token, refresh_token} |
+```
+
+Add a new migration to create a new table for sessions:
+
+```sh
+migrate create -ext sql -dir db/migration -seq add_sessions 
+# OR make migration-create name=add_sessions
+```
+

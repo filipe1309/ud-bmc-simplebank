@@ -12,14 +12,24 @@ Content-Type: application/json
   "password": "secret"
 }
 
-@authToken = {{login.response.body.access_token}}
+@accessToken = {{login.response.body.access_token}}
+@refreshToken = {{login.response.body.refresh_token}}
+
+###
+
+# Renew token
+POST {{baseUrl}}/tokens/renew-access-token
+Content-Type: application/json
+
+{
+  "refresh_token": "{{refreshToken}}"
+}
 
 ###
 
 # Create user
 POST {{baseUrl}}/users
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
 
 {
   "username": "johndoe5",
@@ -33,7 +43,7 @@ Authorization: Bearer {{authToken}}
 # Create account
 POST {{baseUrl}}/accounts
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
+Authorization: Bearer {{accessToken}}
 
 {
     "owner": "johndoe5",
@@ -44,20 +54,20 @@ Authorization: Bearer {{authToken}}
 
 # Get one account
 GET {{baseUrl}}/accounts/133
-Authorization: Bearer {{authToken}}
+Authorization: Bearer {{accessToken}}
 
 ###
 
 # Get all accounts with pagination
 GET {{baseUrl}}/accounts?page_id=1&page_size=10
-Authorization: Bearer {{authToken}}
+Authorization: Bearer {{accessToken}}
 
 ### 
 
 # Create Transfer
 POST {{baseUrl}}/transfers
 Content-Type: application/json
-Authorization: Bearer {{authToken}}
+Authorization: Bearer {{accessToken}}
 
 {
   "from_account_id": 3,

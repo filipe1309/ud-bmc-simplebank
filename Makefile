@@ -1,4 +1,4 @@
-.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1 up db_docs db_schema proto
+.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1 up db_docs db_schema proto evans
 
 DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 
@@ -38,12 +38,10 @@ db_schema:
 sqlc:
 	sqlc generate
 
-# run tests
 test:
 	@echo "🟢 Running tests..."
 	go test -v -cover ./...
 
-# run node
 run: 
 	@echo "🚀 Running server & db containers..."
 	docker compose up --force-recreate
@@ -70,6 +68,9 @@ proto:
     --go-grpc_out=pb --go-grpc_opt=paths=source_relative \
     proto/*.proto
 
+evans:
+	evans --host localhost --port 9090 -r repl
+
 help:
 	@echo "📖 Available commands:"
 	@echo "  make install"
@@ -82,11 +83,12 @@ help:
 	@echo "  make migratedown"
 	@echo "  make migratedown1"
 	@echo "  make sqlc"
+	@echo "  make test"
 	@echo "  make run"
 	@echo "  make stop"
 	@echo "  make rundb"
 	@echo "  make server"
 	@echo "  make mock"
 	@echo "  make proto"
-	@echo "  make test"
+	@echo "  make evans"
 	@echo "  make help"

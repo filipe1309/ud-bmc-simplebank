@@ -403,7 +403,7 @@ go get github.com/spf13/viper
 ```
 
 ```sh
-SERVER_ADDRESS=0.0.0.0:8081 make server
+HTTP_SERVER_ADDRESS=0.0.0.0:8081 make server
 ```
 
 ### Mock DB for testing HTTP API in Go and achieve 100% coverage
@@ -837,7 +837,7 @@ Amazon Secrets Manager
 Create a new secret:
 
 ```sh
-aws secretsmanager create-secret --name simple_bank --description "Environment variables and secrets for Simple Bank" --secret-string '{"DB_DRIVER": "postgres", "DB_SOURCE": "postgresql://root:<rds_password>@<rds_endpoint>:5432/simple_bank", "SERVER_ADDRESS": "0.0.0.0:8080", "ACCESS_TOKEN_DURATION": "15m", "TOKEN_SYMMETRIC_KEY": "<random_token>"}'
+aws secretsmanager create-secret --name simple_bank --description "Environment variables and secrets for Simple Bank" --secret-string '{"DB_DRIVER": "postgres", "DB_SOURCE": "postgresql://root:<rds_password>@<rds_endpoint>:5432/simple_bank", "HTTP_SERVER_ADDRESS": "0.0.0.0:8080", "ACCESS_TOKEN_DURATION": "15m", "TOKEN_SYMMETRIC_KEY": "<random_token>"}'
 ```
 
 Get the secret:
@@ -1639,5 +1639,37 @@ this will generate the `pb` package with the Go code.
 
 ```sh
 go mod tidy
+```
+
+### 43. How to run a golang gRPC server and call its API
+
+```sh
+go run main.go
+```
+
+Evans: gRPC CLI
+
+```sh
+brew tap ktr0731/evans
+brew install evans
+```
+
+```sh
+evans --host localhost --port 9090 -r repl # default port is 50051
+```
+
+```sh
+show service
+package pb
+service SimpleBank
+```
+
+```sh
+# call pb.SimpleBank.CreateUser
+call CreateUser
+```
+
+```sh
+exit
 ```
 

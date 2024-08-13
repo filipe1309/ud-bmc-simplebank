@@ -209,5 +209,6 @@ make test
 - [Protocol Buffer Compiler Installation](https://grpc.io/docs/protoc-installation/)
 - [Language Guide (proto 3)](https://protobuf.dev/programming-guides/proto3/)
 - [vscode-proto3](https://marketplace.visualstudio.com/items?itemName=zxh404.vscode-proto3)
+- [Evans: gRPC CLI](https://github.com/ktr0731/evans)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

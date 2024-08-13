@@ -69,7 +69,7 @@ proto:
     proto/*.proto
 
 evans:
-	evans --host localhost --port 9090 -r repl
+	evans --host localhost --port 9090 --package pb --service SimpleBank -r repl
 
 help:
 	@echo "📖 Available commands:"

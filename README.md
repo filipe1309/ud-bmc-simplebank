@@ -108,18 +108,38 @@ make server
 
 ### API
 
-table with API, name, and rule:
-
 | API | Name | Rule |
 | --- | --- | --- |
 | `POST /users/login` | Login | A user can log in with email and password |
 | `POST /tokens/renew-access-token` | Renew access token | A user can renew his/her access token with a valid refresh token |
+| `POST /users` | Create a new user | A user can create a new user |
 | `POST /accounts` | Create a new account | A logged user can only create an account for himself/herself |
 | `GET /accounts/:id` | Get an account by id | A logged user can only get accounts that belong to himself/herself |
 | `GET /accounts` | List accounts | A logged user can only list accounts that belong to himself/herself |
 | `POST /transfers` | Create a new transfer | A logged user can only send money from his/her account |
 
 Examples of the API requests are in the [api](api.http) file.
+
+### gRPC
+
+| gRPC | Name | Rule |
+| --- | --- | --- |
+| `LoginUser` | Login | A user can log in with email and password |
+| `CreateUser` | Create a new user | A user can create a new user |
+
+Example with Evans REPL:
+
+```sh
+make evans
+```
+
+```sh
+> call CreateUser
+```
+
+```sh
+> call LoginUser
+```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -218,5 +238,6 @@ make test
 - [Language Guide (proto 3)](https://protobuf.dev/programming-guides/proto3/)
 - [vscode-proto3](https://marketplace.visualstudio.com/items?itemName=zxh404.vscode-proto3)
 - [Evans: gRPC CLI](https://github.com/ktr0731/evans)
+- [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

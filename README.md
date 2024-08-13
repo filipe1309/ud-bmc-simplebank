@@ -5,9 +5,17 @@
 
 <p align="center">
     <img src="https://img.shields.io/badge/Code-Go-informational?style=flat-square&logo=go&color=00ADD8" alt="Go" />
+    <img src="https://img.shields.io/badge/Code-Gin-informational?style=flat-square&logo=gin&color=008ECF" alt="Gin" />
     <img src="https://img.shields.io/badge/Tools-PostgreSQL-informational?style=flat-square&logo=postgresql&color=4169E1&logoColor=4169E1" alt="PostgreSQL" />
     <img src="https://img.shields.io/badge/Tools-Docker-informational?style=flat-square&logo=docker&color=2496ED" alt="Docker" />
     <img src="https://img.shields.io/badge/Tools-Kubernetes-informational?style=flat-square&logo=kubernetes&color=326CE5" alt="Kubernetes" />
+    <img src="https://img.shields.io/badge/Tools-AWS_Secrets_Manager-informational?style=flat-square&logo=aws-secrets-manager&color=DD344C" alt="AWS Secrets Manager" />
+    <img src="https://img.shields.io/badge/Tools-AWS_EKS-informational?style=flat-square&logo=amazon-eks&color=FF9900" alt="AWS EKS" />
+    <img src="https://img.shields.io/badge/Tools-AWS_ECR-informational?style=flat-square&logo=amazon-ecr&color=232F3E" alt="AWS ECR" />
+    <img src="https://img.shields.io/badge/Tools-AWS_IAM-informational?style=flat-square&logo=amazon-iam&color=232F3E" alt="AWS IAM" />
+    <img src="https://img.shields.io/badge/Tools-AWS_EC2-informational?style=flat-square&logo=amazon-ec2&color=FF9900" alt="AWS EC2" />
+    <img src="https://img.shields.io/badge/Tools-AWS_RDS-informational?style=flat-square&logo=amazon-rds&color=527FFF" alt="AWS RDS" />
+    <img src="https://img.shields.io/badge/Tools-AWS_S3-informational?style=flat-square&logo=amazon-s3&color=569A31" alt="AWS S3" />
 </p>
 
 ## 💬 About

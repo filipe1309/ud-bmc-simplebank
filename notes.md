@@ -1514,3 +1514,130 @@ npm install -g @dbml/cli
 dbml2sql --postgres -o db/schema.sql doc/db.dbml
 ```
 
+### 41. Introduction to gRPC
+
+gRPC: Remote Procedure Call (RPC) framework
+
+- Protocol Buffers: Interface Definition Language (IDL) to define services and messages
+- HTTP/2: Transport protocol
+- Bidirectional Streaming: Multiple requests and responses in parallel
+- Code Generation: Generate client and server code in multiple languages
+
+How gRPC works:
+
+1. Define API & data structures in `.proto` file
+2. Generate server & client code (stubs) using `protoc` compiler
+3. Implement server code
+4. Call server from client
+
+Example:
+
+`welcome.proto`:
+```proto
+syntax = "proto3";
+
+message HelloRequest {
+	string name = 1;
+}
+
+message HelloResponse {
+	string greet = 1;
+}
+
+service WelcomeService {
+	rpc SayHello (HelloRequest) returns (HelloResponse);
+}
+```
+
+`welcome.rs`:
+```rust
+pub struct HelloRequest {
+	pub name: ::std::string::String,
+}
+
+pub struct HelloResponse {
+	pub greet: ::std::string::String,
+}
+
+pub struct WelcomeServiceClient {
+	client: ::grpcio::Client,
+}
+
+pub trait WelcomeService {
+	fn say_hello(&mut self, req: HelloRequest, sink: ::grpcio::UnarySink<HelloResponse>);
+}
+```
+
+`welcome.go`:
+```go
+type HelloRequest struct {
+	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+}
+
+type HelloResponse struct {
+	Greet string `protobuf:"bytes,1,opt,name=greet,proto3" json:"greet,omitempty"`
+}
+
+type WelcomeServiceClient interface {
+	SayHello(*HelloRequest) (*HelloResponse, error)
+}
+
+type WelcomeServiceServer interface {
+	SayHello(*HelloRequest) (*HelloResponse, error)
+}
+```
+
+Why gRPC:
+
+- Performance: HTTP/2, binary serialization, bidirectional streaming
+- Strong Typing: Protocol Buffers RPC definition shared between client and server
+- Code Generation: Generate client and server code
+
+Types of gRPC:
+
+- Unary RPC: Simple request and response
+- Server Streaming RPC: Server sends multiple responses after receiving a request
+- Client Streaming RPC: Client sends multiple requests and server sends a single response
+- Bidirectional Streaming RPC: Both client and server send multiple requests and responses
+
+gRPC Gateway: Serve gRPC and RESTful HTTP JSON API on the same port
+
+
+### 42. Define gRPC API and generate Go code with protobuf
+
+Protocol Buffer Compiler
+
+```sh
+brew install protobuf
+```
+
+```sh
+protoc --version
+```
+
+Go plugins for the protocol compiler:
+
+```sh
+go install google.golang.org/protobuf/cmd/protoc-gen-go
+protoc-gen-go --version
+```
+
+```sh
+go install google.golang.org/grpc/cmd/protoc-gen-go-grpc
+protoc-gen-go-grpc --version
+```
+
+Create proto files, ant then run:
+
+```sh
+protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative \
+    --go-grpc_out=pb --go-grpc_opt=paths=source_relative \
+    proto/*.proto
+```
+
+this will generate the `pb` package with the Go code.
+
+```sh
+go mod tidy
+```
+

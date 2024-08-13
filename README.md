@@ -205,6 +205,9 @@ make test
 - [Kubectl tool installer](https://github.com/marketplace/actions/kubectl-tool-installer)
 - [vscode-dbml](https://marketplace.visualstudio.com/items?itemName=matt-meyers.vscode-dbml)
 - [dbdocs.io](https://dbdocs.io/docs)
-
+- [gRPC](https://grpc.io/)
+- [Protocol Buffer Compiler Installation](https://grpc.io/docs/protoc-installation/)
+- [Language Guide (proto 3)](https://protobuf.dev/programming-guides/proto3/)
+- [vscode-proto3](https://marketplace.visualstudio.com/items?itemName=zxh404.vscode-proto3)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

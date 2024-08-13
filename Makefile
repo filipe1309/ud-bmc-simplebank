@@ -1,4 +1,4 @@
-.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1 up db_docs db_schema
+.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1 up db_docs db_schema proto
 
 DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 
@@ -64,6 +64,12 @@ server: up migrateup
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/filipe1309/ud-bmc-simplebank/db/sqlc Store
 
+proto:
+	rm -f pb/*.go
+	protoc --proto_path=proto --go_out=pb --go_opt=paths=source_relative \
+    --go-grpc_out=pb --go-grpc_opt=paths=source_relative \
+    proto/*.proto
+
 help:
 	@echo "📖 Available commands:"
 	@echo "  make install"
@@ -81,5 +87,6 @@ help:
 	@echo "  make rundb"
 	@echo "  make server"
 	@echo "  make mock"
+	@echo "  make proto"
 	@echo "  make test"
 	@echo "  make help"

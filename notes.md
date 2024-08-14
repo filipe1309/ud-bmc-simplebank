@@ -1673,3 +1673,53 @@ call CreateUser
 exit
 ```
 
+### 45. gRPC Gateway: write code once, serve both gRPC & HTTP requests
+
+- A plugin for the Google protocol buffer compiler `protoc`
+- Generate HTTP proxy codes from protobuf
+- Translate RESTful HTTP JSON API to gRPC
+ - In-process translation: only for unary RPC
+ - Separate proxy server: both for unary and streaming RPC
+
+```mermaid
+graph LR
+		A[Client] -->|HTTP| B[API Gateway]
+		B -->|gRPC| C[Service]
+		C -->|HTTP| B
+```
+
+On `tools/tools.go`:
+
+```go
+// +build tools
+
+package tools
+
+import (
+    _ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway"
+    _ "github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2"
+    _ "google.golang.org/grpc/cmd/protoc-gen-go-grpc"
+    _ "google.golang.org/protobuf/cmd/protoc-gen-go"
+)
+```
+
+```sh
+go mod tidy
+```
+
+```sh
+go install \
+	github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway \
+	github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2 \
+	google.golang.org/protobuf/cmd/protoc-gen-go \
+	google.golang.org/grpc/cmd/protoc-gen-go-grpc
+```
+
+Copy:
+
+google/api/annotations.proto  
+google/api/field_behavior.proto  
+google/api/http.proto  
+google/api/httpbody.proto  
+
+from https://github.com/googleapis/googleapis  

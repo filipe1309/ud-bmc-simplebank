@@ -17,6 +17,21 @@ Content-Type: application/json
 
 ###
 
+# Login user (gRPC Gateway)
+# @name login
+POST {{baseUrl}}/v1/login_user
+Content-Type: application/json
+
+{
+  "username": "johndoe5",
+  "password": "secret"
+}
+
+@accessToken = {{login.response.body.access_token}}
+@refreshToken = {{login.response.body.refresh_token}}
+
+###
+
 # Renew token
 POST {{baseUrl}}/tokens/renew-access-token
 Content-Type: application/json
@@ -37,6 +52,20 @@ Content-Type: application/json
   "email": "john.doe5@email.com",
   "password": "secret"
 }
+
+###
+
+# Create user (gRPC Gateway)
+POST {{baseUrl}}/v1/create_user
+Content-Type: application/json
+
+{
+  "username": "johndoe",
+  "full_name": "John Doe",
+  "email": "john.doe@email.com",
+  "password": "secret"
+}
+
 
 ###
 

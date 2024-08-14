@@ -106,7 +106,9 @@ make server
 
 ## :rocket: Usage
 
-### API
+> defined in `main.go`
+
+### API - Gin
 
 | API | Name | Rule |
 | --- | --- | --- |
@@ -117,6 +119,14 @@ make server
 | `GET /accounts/:id` | Get an account by id | A logged user can only get accounts that belong to himself/herself |
 | `GET /accounts` | List accounts | A logged user can only list accounts that belong to himself/herself |
 | `POST /transfers` | Create a new transfer | A logged user can only send money from his/her account |
+
+### API - gRPC Gateway
+
+| API | Name | Rule |
+| --- | --- | --- |
+| `POST /v1/login_user` | Login | A user can log in with email and password |
+| `POST /v1/create_user` | Create a new user | A user can create a new user |
+
 
 Examples of the API requests are in the [api](api.http) file.
 
@@ -239,5 +249,8 @@ make test
 - [vscode-proto3](https://marketplace.visualstudio.com/items?itemName=zxh404.vscode-proto3)
 - [Evans: gRPC CLI](https://github.com/ktr0731/evans)
 - [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+- [gRPC-Gateway](https://github.com/grpc-ecosystem/grpc-gateway)
+- [Google APIs](https://github.com/googleapis/googleapis)
+- [Customizing your gateway](https://grpc-ecosystem.github.io/grpc-gateway/docs/mapping/customizing_your_gateway/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

@@ -1717,9 +1717,29 @@ go install \
 
 Copy:
 
-google/api/annotations.proto  
-google/api/field_behavior.proto  
-google/api/http.proto  
-google/api/httpbody.proto  
+- google/api/annotations.proto
+- google/api/field_behavior.proto
+- google/api/http.proto
+- google/api/httpbody.proto
 
-from https://github.com/googleapis/googleapis  
+From: https://github.com/googleapis/googleapis  
+
+
+### 47. Automatic generate & serve swagger documentation from Go server
+
+```sh
+mkdir -p proto/protoc-gen-openapiv2/options
+```
+
+Copy:
+
+- annotations.proto
+- openapiv2.proto
+
+From: https://github.com/grpc-ecosystem/grpc-gateway/tree/main/protoc-gen-openapiv2/options
+
+Copy:
+
+dist/*
+
+From: https://github.com/swagger-api/swagger-ui

@@ -44,6 +44,7 @@ Notes taken during the course are in the [notes](notes.md) file.
 - [JWT](https://jwt.io/)
 - [PASETO](https://paseto.io/)
 - [AWS](https://aws.amazon.com/)
+- [Swagger](https://swagger.io/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -127,6 +128,7 @@ make server
 | `POST /v1/login_user` | Login | A user can log in with email and password |
 | `POST /v1/create_user` | Create a new user | A user can create a new user |
 
+> Swagger http://localhost:8080/swagger/
 
 Examples of the API requests are in the [api](api.http) file.
 
@@ -252,5 +254,10 @@ make test
 - [gRPC-Gateway](https://github.com/grpc-ecosystem/grpc-gateway)
 - [Google APIs](https://github.com/googleapis/googleapis)
 - [Customizing your gateway](https://grpc-ecosystem.github.io/grpc-gateway/docs/mapping/customizing_your_gateway/)
+- [Swagger](https://swagger.io/)
+- [Swagger Editor](https://editor-next.swagger.io/)
+- [SwaggerHub](https://swagger.io/tools/swaggerhub/)
+- [gRPC-Gateway - a_bit_of_everything.proto](https://github.com/grpc-ecosystem/grpc-gateway/blob/main/examples/internal/proto/examplepb/a_bit_of_everything.proto)
+- [Swagger UI](https://swagger.io/tools/swagger-ui/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

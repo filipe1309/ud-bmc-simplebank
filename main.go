@@ -9,11 +9,13 @@ import (
 
 	"github.com/filipe1309/ud-bmc-simplebank/api"
 	db "github.com/filipe1309/ud-bmc-simplebank/db/sqlc"
+	_ "github.com/filipe1309/ud-bmc-simplebank/doc/statik"
 	"github.com/filipe1309/ud-bmc-simplebank/gapi"
 	"github.com/filipe1309/ud-bmc-simplebank/pb"
 	"github.com/filipe1309/ud-bmc-simplebank/util"
 	"github.com/grpc-ecosystem/grpc-gateway/v2/runtime"
 	_ "github.com/lib/pq"
+	"github.com/rakyll/statik/fs"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/reflection"
 	"google.golang.org/protobuf/encoding/protojson"
@@ -85,8 +87,18 @@ func runGatewayServer(config util.Config, store db.Store) {
 	mux := http.NewServeMux()
 	mux.Handle("/", grpcMux)
 
-	fs := http.FileServer(http.Dir("./doc/swagger"))
-	mux.Handle("/swagger/", http.StripPrefix("/swagger/", fs))
+	// serve swagger from files (disk)
+	// fs := http.FileServer(http.Dir("./doc/swagger"))
+	// mux.Handle("/swagger/", http.StripPrefix("/swagger/", fs))
+
+	// serve swagger from statik embeded files (memory)
+	statikFS, err := fs.New()
+	if err != nil {
+		log.Fatal("cannot create statik file system:", err)
+	}
+	swaggerHandler := http.StripPrefix("/swagger/", http.FileServer(statikFS))
+	mux.Handle("/swagger/", swaggerHandler)
+
 	log.Printf("start swagger server at %s", config.HTTPServerAddress+"/swagger/")
 
 	listener, err := net.Listen("tcp", config.HTTPServerAddress)

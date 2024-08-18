@@ -33,6 +33,7 @@ Notes taken during the course are in the [notes](notes.md) file.
 - [Go](https://golang.org/)
 - [Gin](https://gin-gonic.com/)
 - [Viper](https://github.com/spf13/viper)
+- [Statik](https://github.com/rakyll/statik)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Lib pq](https://github.com/lib/pq)
 - [SQLC](https://sqlc.dev/)
@@ -259,5 +260,6 @@ make test
 - [SwaggerHub](https://swagger.io/tools/swaggerhub/)
 - [gRPC-Gateway - a_bit_of_everything.proto](https://github.com/grpc-ecosystem/grpc-gateway/blob/main/examples/internal/proto/examplepb/a_bit_of_everything.proto)
 - [Swagger UI](https://swagger.io/tools/swagger-ui/)
+- [Statik](https://github.com/rakyll/statik)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

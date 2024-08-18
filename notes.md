@@ -1743,3 +1743,26 @@ Copy:
 dist/*
 
 From: https://github.com/swagger-api/swagger-ui
+
+### 48. Embed static front-end files inside Golang backend server's binary
+
+Statik: Embed static files into Go binaries https://github.com/rakyll/statik
+
+```sh
+go get github.com/rakyll/statik
+```
+
+```sh
+go install github.com/rakyll/statik
+```
+
+```sh
+statik -help
+```
+
+Add on `make proto`:
+
+```sh
+statik -src=./doc/swagger -dest=./doc
+```
+

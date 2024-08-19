@@ -60,7 +60,7 @@ POST {{baseUrl}}/v1/create_user
 Content-Type: application/json
 
 {
-  "username": "????johndoe",
+  "username": "johndoe",
   "full_name": "John Doe",
   "email": "john.doe@email.com",
   "password": "secret"

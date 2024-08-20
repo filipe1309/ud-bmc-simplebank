@@ -1766,3 +1766,62 @@ Add on `make proto`:
 statik -src=./doc/swagger -dest=./doc
 ```
 
+
+### 51. Partial update DB record with SQLC nullable arguments
+
+With SQLC:
+
+```sql
+-- name: UpdateUser :one
+UPDATE users
+SET
+  hashed_password = CASE 
+    WHEN $1 = TRUE THEN $2
+    ELSE hashed_password
+  END,
+  full_name = CASE 
+    WHEN $3 = TRUE THEN $4
+    ELSE full_name
+  END,
+  email = CASE 
+    WHEN $5 = TRUE THEN $6
+    ELSE email
+  END
+WHERE username = $7
+RETURNING *;
+```
+
+With SQLC Naming the arguments:
+
+```sql
+-- name: UpdateUser :one
+UPDATE users
+SET
+	hashed_password = CASE 
+		WHEN @set_hashed_password::boolean = TRUE THEN @hashed_password
+		ELSE hashed_password
+	END,
+	full_name = CASE
+		WHEN @set_full_name::boolean = TRUE THEN @full_name
+		ELSE full_name
+	END,
+	email = CASE
+		WHEN @set_email::boolean = TRUE THEN @email
+		ELSE email
+	END
+WHERE username = @username
+RETURNING *;
+```
+
+With SQLC Nullable parameters:
+
+```sql
+-- name: UpdateUser :one
+UPDATE users
+SET
+	hashed_password = COALESCE(sqlc.narg(hashed_password), hashed_password),
+  full_name = COALESCE(sqlc.narg(full_name), full_name),
+  email = COALESCE(sqlc.narg(email), email)
+WHERE sqlc.arg(username)
+RETURNING *;
+```

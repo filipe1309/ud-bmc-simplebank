@@ -48,7 +48,7 @@ Content-Type: application/json
 
 {
   "username": "johndoe5",
-  "full_name": "John Doe 5",
+  "full_name": "John Doe Five",
   "email": "john.doe5@email.com",
   "password": "secret"
 }
@@ -106,3 +106,16 @@ Authorization: Bearer {{accessToken}}
 }
 
 ### 
+
+# Update user (gRPC Gateway)
+PATCH {{baseUrl}}/v1/update_user
+Content-Type: application/json
+
+{
+  "username": "johndoe",
+  "full_name": "John Doe",
+  "email": "johndoe@email.com",
+  "password": "secret"
+}
+
+###

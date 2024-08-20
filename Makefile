@@ -56,7 +56,7 @@ rundb:
 updb:
 	docker compose up postgres -d
 
-server: up migrateup
+server: updb
 	go run main.go
 
 mock:

@@ -1825,3 +1825,9 @@ SET
 WHERE sqlc.arg(username)
 RETURNING *;
 ```
+
+### 54. Write structured logs for gRPC APIs
+
+```sh
+go get -u github.com/rs/zerolog/log
+```

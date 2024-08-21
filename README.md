@@ -46,6 +46,7 @@ Notes taken during the course are in the [notes](notes.md) file.
 - [PASETO](https://paseto.io/)
 - [AWS](https://aws.amazon.com/)
 - [Swagger](https://swagger.io/)
+- [Zero Allocation JSON Logger](https://github.com/rs/zerolog)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -291,5 +292,6 @@ make test
 - [gRPC-Gateway - a_bit_of_everything.proto](https://github.com/grpc-ecosystem/grpc-gateway/blob/main/examples/internal/proto/examplepb/a_bit_of_everything.proto)
 - [Swagger UI](https://swagger.io/tools/swagger-ui/)
 - [Statik](https://github.com/rakyll/statik)
+- [Zero Allocation JSON Logger](https://github.com/rs/zerolog)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

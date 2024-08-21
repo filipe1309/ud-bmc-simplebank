@@ -102,7 +102,6 @@ make server
 
 > This will run the server at `localhost:8080` and the database at `localhost:5432`.
 
-> Access http://localhost
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -124,6 +123,8 @@ make server
 
 Examples of the API requests are in the [api](api.http) file.
 
+> Docs http://localhost:8080/swagger/
+
 ### API - gRPC Gateway
 
 | API | Name | Rule |
@@ -132,9 +133,9 @@ Examples of the API requests are in the [api](api.http) file.
 | `POST /v1/create_user` | Create a new user | A user can create a new user |
 | `POST /v1/update_user` | Update a user | A logged user can only update his/her own user, username is required and other fields are optional |
 
-> Swagger http://localhost:8080/swagger/
-
 Examples of the API requests are in the [api_grpc_gateway](api_grpc_gateway.http) file.
+
+> Docs http://localhost:8080/swagger/
 
 ### gRPC
 

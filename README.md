@@ -122,6 +122,8 @@ make server
 | `GET /accounts` | List accounts | A logged user can only list accounts that belong to himself/herself |
 | `POST /transfers` | Create a new transfer | A logged user can only send money from his/her account |
 
+Examples of the API requests are in the [api](api.http) file.
+
 ### API - gRPC Gateway
 
 | API | Name | Rule |
@@ -132,7 +134,7 @@ make server
 
 > Swagger http://localhost:8080/swagger/
 
-Examples of the API requests are in the [api](api.http) file.
+Examples of the API requests are in the [api_grpc_gateway](api_grpc_gateway.http) file.
 
 ### gRPC
 

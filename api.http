@@ -60,9 +60,9 @@ POST {{baseUrl}}/v1/create_user
 Content-Type: application/json
 
 {
-  "username": "johndoe",
-  "full_name": "John Doe",
-  "email": "john.doe@email.com",
+  "username": "johndoe5",
+  "full_name": "John Doe Five",
+  "email": "john.doe5@email.com",
   "password": "secret"
 }
 
@@ -110,11 +110,12 @@ Authorization: Bearer {{accessToken}}
 # Update user (gRPC Gateway)
 PATCH {{baseUrl}}/v1/update_user
 Content-Type: application/json
+Authorization: Bearer {{accessToken}}
 
 {
-  "username": "johndoe",
-  "full_name": "John Doe",
-  "email": "johndoe@email.com",
+  "username": "johndoe5",
+  "full_name": "New John Doe Five",
+  "email": "john.doe5@email.com",
   "password": "secret"
 }
 

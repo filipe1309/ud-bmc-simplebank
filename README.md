@@ -128,6 +128,7 @@ make server
 | --- | --- | --- |
 | `POST /v1/login_user` | Login | A user can log in with email and password |
 | `POST /v1/create_user` | Create a new user | A user can create a new user |
+| `POST /v1/update_user` | Update a user | A logged user can only update his/her own user, username is required and other fields are optional |
 
 > Swagger http://localhost:8080/swagger/
 
@@ -139,6 +140,7 @@ Examples of the API requests are in the [api](api.http) file.
 | --- | --- | --- |
 | `LoginUser` | Login | A user can log in with email and password |
 | `CreateUser` | Create a new user | A user can create a new user |
+| `UpdateUser` | Update a user | A logged user can only update his/her own user, username is required and other fields are optional |
 
 Example with Evans REPL:
 
@@ -147,11 +149,36 @@ make evans
 ```
 
 ```sh
-> call CreateUser
+> call LoginUser
+# {
+#     "username": "johndoe5",
+#     "password": "secret"
+# }
 ```
 
 ```sh
-> call LoginUser
+> call CreateUser
+# {
+#   "username": "johndoe5",
+#   "full_name": "John Doe Five",
+#   "email": "john.doe5@email.com",
+#   "password": "secret"
+# }
+```
+
+```sh
+> call UpdateUser
+# {
+#   "username": "johndoe5", # required
+#   "full_name": "New John Doe Five",
+#   "email": "john.doe5@email.com",
+#   "password": "secret"
+# }
+# OR
+# {
+#   "username": "johndoe5",
+#   "full_name": "New John Doe Five"
+# }
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

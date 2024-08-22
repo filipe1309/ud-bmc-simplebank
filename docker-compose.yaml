@@ -8,6 +8,10 @@ services:
       - POSTGRES_PASSWORD=secret
     ports:
       - "5432:5432"
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
   api:
     build: .
     ports:

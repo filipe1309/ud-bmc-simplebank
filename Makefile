@@ -1,4 +1,4 @@
-.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1 up db_docs db_schema proto evans redis
+.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1 up db_docs db_schema proto evans redis upredis
 
 DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 
@@ -56,7 +56,7 @@ rundb:
 updb:
 	docker compose up postgres -d
 
-server: updb
+server: updb upredis
 	go run main.go
 
 mock:
@@ -77,6 +77,9 @@ evans:
 
 redis:
 	docker run --name redis -d -p 6379:6379 redis:7-alpine
+
+upredis:
+	docker compose up redis -d
 
 help:
 	@echo "📖 Available commands:"
@@ -99,4 +102,5 @@ help:
 	@echo "  make proto"
 	@echo "  make evans"
 	@echo "  make redis"
+	@echo "  make upredis"
 	@echo "  make help"

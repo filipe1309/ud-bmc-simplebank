@@ -1,4 +1,4 @@
-.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1 up db_docs db_schema proto evans
+.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1 up db_docs db_schema proto evans redis
 
 DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 
@@ -75,6 +75,9 @@ proto:
 evans:
 	evans --host localhost --port 9090 --package pb --service SimpleBank -r repl
 
+redis:
+	docker run --name redis -d -p 6379:6379 redis:7-alpine
+
 help:
 	@echo "📖 Available commands:"
 	@echo "  make install"
@@ -95,4 +98,5 @@ help:
 	@echo "  make mock"
 	@echo "  make proto"
 	@echo "  make evans"
+	@echo "  make redis"
 	@echo "  make help"

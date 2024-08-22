@@ -1831,3 +1831,15 @@ RETURNING *;
 ```sh
 go get -u github.com/rs/zerolog/log
 ```
+
+## Section 5: Asynchronous processing with background workers [Asynq + Redis]
+
+### 57. Integrate async worker to Go web server
+
+Redis
+
+```sh
+docker run --name redis -p 6379:6379 -d redis
+docker exec -it redis redis-cli ping
+```
+

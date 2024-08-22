@@ -9,6 +9,7 @@
     <img src="https://img.shields.io/badge/Tools-PostgreSQL-informational?style=flat-square&logo=postgresql&color=4169E1&logoColor=4169E1" alt="PostgreSQL" />
     <img src="https://img.shields.io/badge/Tools-Docker-informational?style=flat-square&logo=docker&color=2496ED" alt="Docker" />
     <img src="https://img.shields.io/badge/Tools-Kubernetes-informational?style=flat-square&logo=kubernetes&color=326CE5" alt="Kubernetes" />
+    <img src="https://img.shields.io/badge/Tools-Redis-informational?style=flat-square&logo=redis&color=FF4438" alt="Redis" />
     <img src="https://img.shields.io/badge/Tools-AWS_Secrets_Manager-informational?style=flat-square&logo=aws-secrets-manager&color=DD344C" alt="AWS Secrets Manager" />
     <img src="https://img.shields.io/badge/Tools-AWS_EKS-informational?style=flat-square&logo=amazon-eks&color=FF9900" alt="AWS EKS" />
     <img src="https://img.shields.io/badge/Tools-AWS_ECR-informational?style=flat-square&logo=amazon-ecr&color=232F3E" alt="AWS ECR" />
@@ -47,6 +48,8 @@ Notes taken during the course are in the [notes](notes.md) file.
 - [AWS](https://aws.amazon.com/)
 - [Swagger](https://swagger.io/)
 - [Zero Allocation JSON Logger](https://github.com/rs/zerolog)
+- [Asynq](https://github.com/hibiken/asynq)
+- [Redis](https://redis.io/)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -293,5 +296,8 @@ make test
 - [Swagger UI](https://swagger.io/tools/swagger-ui/)
 - [Statik](https://github.com/rakyll/statik)
 - [Zero Allocation JSON Logger](https://github.com/rs/zerolog)
+- [Asynq](https://github.com/hibiken/asynq)
+- [Redis](https://redis.io/)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

@@ -22,9 +22,9 @@ POST {{baseUrl}}/v1/create_user
 Content-Type: application/json
 
 {
-  "username": "johndoe10",
-  "full_name": "John Doe Ten",
-  "email": "john.doe10@email.com",
+  "username": "johndoe11",
+  "full_name": "John Doe",
+  "email": "john.doe11@email.com",
   "password": "secret"
 }
 

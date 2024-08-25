@@ -2,7 +2,6 @@ package worker
 
 import (
 	"context"
-	"database/sql"
 	"encoding/json"
 	"fmt"
 
@@ -40,7 +39,7 @@ func (distributor *RedisTaskDistributer) DistributeTaskSendVerifyEmail(
 		Int("max_retry", info.MaxRetry).
 		Msg("enqueud task")
 
-		return nil
+	return nil
 }
 
 func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Context, task *asynq.Task) error {
@@ -51,13 +50,12 @@ func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Cont
 
 	user, err := processor.store.GetUser(ctx, payload.Username)
 	if err != nil {
-		if err == sql.ErrNoRows {
-			return fmt.Errorf("user doesn't exist: %w", asynq.SkipRetry)
-		}
+		// comment SkipRetry, because we want to retry this task, in case that the db takes too long to create the user
+		// if err == sql.ErrNoRows {
+		// 	return fmt.Errorf("user doesn't exist: %w", asynq.SkipRetry)
+		// }
 		return fmt.Errorf("failed to get user: %w", err)
 	}
-
-	// TODO: Send email to user
 
 	log.
 		Info().
@@ -66,5 +64,5 @@ func (processor *RedisTaskProcessor) ProcessTaskSendVerifyEmail(ctx context.Cont
 		Str("email", user.Email).
 		Msg("processed task")
 
-		return nil
+	return nil
 }

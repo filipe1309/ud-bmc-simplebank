@@ -298,6 +298,10 @@ make test
 - [Zero Allocation JSON Logger](https://github.com/rs/zerolog)
 - [Asynq](https://github.com/hibiken/asynq)
 - [Redis](https://redis.io/)
+- [Go - SMTP](https://pkg.go.dev/net/smtp#SendMail)
+- [GO Email Lib](https://github.com/jordan-wright/email)
+- [MailTrap](https://mailtrap.io/)
+- [AWS SES](https://aws.amazon.com/ses/)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

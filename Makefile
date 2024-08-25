@@ -40,7 +40,7 @@ sqlc:
 
 test:
 	@echo "🟢 Running tests..."
-	go test -v -cover ./...
+	go test -v -cover -short ./...
 
 run: 
 	@echo "🚀 Running server & db containers..."

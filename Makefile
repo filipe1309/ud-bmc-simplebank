@@ -1,4 +1,4 @@
-.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1 up db_docs db_schema proto evans redis upredis
+.PHONY: test run help createdb dropdb postgres migrateup migratedown sqlc install server mock rundb migrateup1 migratedown1 up db_docs db_schema proto evans redis upredis new_migration
 
 DB_URL=postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable
 
@@ -13,8 +13,8 @@ createdb:
 dropdb:
 	docker exec -it postgres12 dropdb simple_bank
 
-# example: make migration-create name=create_users_table
-migration-create:
+# example: make new_migration name=create_users_table
+new_migration:
 	migrate create -ext sql -dir db/migration -seq $(name)
 
 migrateup:
@@ -87,7 +87,7 @@ help:
 	@echo "  make postgres"
 	@echo "  make createdb"
 	@echo "  make dropdb"
-	@echo "  make migration-create name=<migration-name>"
+	@echo "  make new_migration name=<migration-name>"
 	@echo "  make migrateup"
 	@echo "  make migrateup1"
 	@echo "  make migratedown"

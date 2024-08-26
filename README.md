@@ -226,11 +226,11 @@ make test
 
 ## :clap: Acknowledgments
 
+- [ShubcoGen Template™](https://github.com/filipe1309/shubcogen-template)
 - [Simple Bank Repo](https://github.com/techschool/simplebank)
 - [Backend Master Class [Golang + Postgres + Kubernetes + gRPC]](https://www.udemy.com/course/backend-master-class-golang-postgresql-kubernetes/)
 - [Simple Bank DBDocs](https://dbdocs.io/techschool.guru/simple_bank)
 - [TablePlus](https://tableplus.com/)
-- [ShubcoGen Template™](https://github.com/filipe1309/shubcogen-template)
 - [Golang Migrate CLI Repo](https://github.com/golang-migrate/migrate/tree/master/cmd/migrate)
 - [DBML](https://dbml.dbdiagram.io/docs/)
 - [Gorm](https://gorm.io/)

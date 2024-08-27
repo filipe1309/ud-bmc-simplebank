@@ -6,7 +6,7 @@ import (
 	"github.com/hibiken/asynq"
 )
 
-type TaskDistributer interface {
+type TaskDistributor interface {
 	DistributeTaskSendVerifyEmail(
 		ctx context.Context,
 		payload *PayloadSendVerifyEmail,
@@ -18,7 +18,7 @@ type RedisTaskDistributer struct {
 	client *asynq.Client
 }
 
-func NewRedisTaskDistributer(redisOpt asynq.RedisClientOpt) TaskDistributer {
+func NewRedisTaskDistributer(redisOpt asynq.RedisClientOpt) TaskDistributor {
 	client := asynq.NewClient(redisOpt)
 	return &RedisTaskDistributer{client: client}
 }

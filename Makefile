@@ -61,6 +61,7 @@ server: updb upredis
 
 mock:
 	mockgen -package mockdb -destination db/mock/store.go github.com/filipe1309/ud-bmc-simplebank/db/sqlc Store
+	mockgen -package mockwk -destination worker/mock/distributor.go github.com/filipe1309/ud-bmc-simplebank/worker TaskDistributor
 
 proto:
 	rm -f pb/*.go

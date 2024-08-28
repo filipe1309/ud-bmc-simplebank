@@ -98,14 +98,14 @@ make run
 Without docker:
 
 ```sh
-make postgres
-```
-
-```sh
 make server
 ```
 
-> This will run the server at `localhost:8080` and the database at `localhost:5432`.
+> This will run: 
+> HTTP server at `localhost:8080`
+> gRPC server at `localhost:9090`
+> database at `localhost:5432`
+> redis at `localhost:6379`
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

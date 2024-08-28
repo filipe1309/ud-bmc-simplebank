@@ -101,10 +101,10 @@ Without docker:
 make server
 ```
 
-> This will run: 
-> HTTP server at `localhost:8080`
-> gRPC server at `localhost:9090`
-> database at `localhost:5432`
+> This will run:  
+> HTTP server at `localhost:8080`  
+> gRPC server at `localhost:9090`  
+> database at `localhost:5432`  
 > redis at `localhost:6379`
 
 

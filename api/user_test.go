@@ -88,7 +88,7 @@ func TestCreateUserAPI(t *testing.T) {
 		// 		store.EXPECT().
 		// 			GetAccount(gomock.Any(), gomock.Eq(account.ID)).
 		// 			Times(1).
-		// 			Return(db.Account{}, sql.ErrNoRows)
+		// 			Return(db.Account{}, db.ErrRecordNotFound)
 		// 	},
 		// 	checkResponse: func(t *testing.T, recorder *httptest.ResponseRecorder) {
 		// 		require.Equal(t, http.StatusNotFound, recorder.Code)
@@ -188,7 +188,7 @@ func TestLoginUserAPI(t *testing.T) {
 				store.EXPECT().
 					GetUser(gomock.Any(), gomock.Any()).
 					Times(1).
-					Return(db.User{}, sql.ErrNoRows)
+					Return(db.User{}, db.ErrRecordNotFound)
 			},
 			checkResponse: func(recorder *httptest.ResponseRecorder) {
 				require.Equal(t, http.StatusNotFound, recorder.Code)

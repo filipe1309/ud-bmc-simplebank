@@ -2,7 +2,8 @@ package db
 
 import (
 	"context"
-	"database/sql"
+
+	"github.com/jackc/pgx/v5/pgtype"
 )
 
 // VerifyEmailTxParams contains the input parameters of the CreateUser transaction
@@ -34,13 +35,12 @@ func (store *SQLStore) VerifyEmailTx(ctx context.Context, arg VerifyEmailTxParam
 		}
 
 		result.User, err = q.UpdateUser(ctx, UpdateUserParams{
-			Username:        result.VerifyEmail.Username,
-			IsEmailVerified: sql.NullBool{
-				Bool: true,
+			Username: result.VerifyEmail.Username,
+			IsEmailVerified: pgtype.Bool{
+				Bool:  true,
 				Valid: true,
 			},
 		})
-		
 
 		return err
 	})

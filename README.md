@@ -37,6 +37,7 @@ Notes taken during the course are in the [notes](notes.md) file.
 - [Statik](https://github.com/rakyll/statik)
 - [PostgreSQL](https://www.postgresql.org/)
 - [Lib pq](https://github.com/lib/pq)
+- [Lib pgx](https://github.com/jackc/pgx)
 - [SQLC](https://sqlc.dev/)
 - [Testify](https://github.com/stretchr/testify)
 - [mockgen/gomock](https://github.com/uber-go/mock)
@@ -302,6 +303,7 @@ make test
 - [GO Email Lib](https://github.com/jordan-wright/email)
 - [MailTrap](https://mailtrap.io/)
 - [AWS SES](https://aws.amazon.com/ses/)
+- [PGX](https://github.com/jackc/pgx)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>

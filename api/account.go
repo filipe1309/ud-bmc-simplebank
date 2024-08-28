@@ -1,7 +1,6 @@
 package api
 
 import (
-	"database/sql"
 	"errors"
 	"net/http"
 
@@ -59,7 +58,7 @@ func (server *Server) getAccount(ctx *gin.Context) {
 
 	account, err := server.store.GetAccount(ctx, req.ID)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		if errors.Is(err, db.ErrRecordNotFound) {
 			ctx.JSON(http.StatusNotFound, errorResponse(err))
 			return
 		}
@@ -92,7 +91,7 @@ func (server *Server) listAccounts(ctx *gin.Context) {
 	authPayload := ctx.MustGet(authorizationPayloadKey).(*token.Payload)
 
 	arg := db.ListAccountsParams{
-		Owner: authPayload.Username,
+		Owner:  authPayload.Username,
 		Limit:  req.PageSize,
 		Offset: (req.PageID - 1) * req.PageSize,
 	}

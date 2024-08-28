@@ -44,7 +44,7 @@ test:
 
 run: 
 	@echo "🚀 Running server & db containers..."
-	docker compose up --force-recreate
+	docker compose up --force-recreate --build
 
 stop:
 	@echo "🛑 Stopping server & db containers..."

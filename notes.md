@@ -1856,3 +1856,41 @@ go install \
     google.golang.org/protobuf/cmd/protoc-gen-go \
     google.golang.org/grpc/cmd/protoc-gen-go-grpc
 ```
+
+
+#### Postman
+
+Save access_token in a variable after run `login` request:
+
+
+on REST:
+```json
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+var jsonData = JSON.parse(pm.response.text());
+pm.collectionVariables.set("access_token", jsonData.access_token)
+```
+
+On gRPC:
+```json
+pm.test('Status code is 0', function () {
+    pm.response.to.have.statusCode(0);
+});
+var accessToken = pm.response.toJSON().messages[0].data.access_token
+pm.collectionVariables.set("access_token", accessToken)
+```
+
+On gRPC v2:
+```json
+pm.test('Status code is 0', function () {
+    pm.response.to.have.statusCode(0);
+});
+pm.test('All response messages have property "access_token"', function () {
+    pm.response.messages.to.have.property('access_token');
+});
+accessToken = pm.response.messages.all()[0].data.access_token
+console.log(accessToken)
+pm.collectionVariables.set("access_token", accessToken)
+```

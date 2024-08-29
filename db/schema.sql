@@ -1,9 +1,10 @@
 -- SQL dump generated using DBML (dbml.dbdiagram.io)
 -- Database: PostgreSQL
--- Generated at: 2024-08-26T01:34:30.600Z
+-- Generated at: 2024-08-29T01:04:50.547Z
 
 CREATE TABLE "users" (
   "username" varchar PRIMARY KEY,
+  "role" varchar NOT NULL DEFAULT 'depositor',
   "hashed_password" varchar NOT NULL,
   "full_name" varchar NOT NULL,
   "email" varchar UNIQUE NOT NULL,
@@ -67,6 +68,8 @@ CREATE INDEX ON "transfers" ("from_account_id");
 CREATE INDEX ON "transfers" ("to_account_id");
 
 CREATE INDEX ON "transfers" ("from_account_id", "to_account_id");
+
+COMMENT ON COLUMN "users"."role" IS 'depositor or banker';
 
 COMMENT ON COLUMN "entries"."amount" IS 'can be negative or positive';
 

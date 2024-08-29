@@ -17,6 +17,6 @@ COPY --from=builder /app/main .
 # COPY --from=builder /app/migrate ./migrate
 COPY db/migration ./db/migration
 
-EXPOSE 8080
+EXPOSE 8080 9090
 CMD ["/app/main"]
 ENTRYPOINT [ "/app/start.sh" ]

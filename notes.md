@@ -1843,3 +1843,16 @@ docker run --name redis -p 6379:6379 -d redis
 docker exec -it redis redis-cli ping
 ```
 
+## Section 6: Improve the stability and security of the server
+
+### 71. How to install & use binary packages in Go
+
+https://github.com/grpc-ecosystem/grpc-gateway
+
+```
+go install \
+    github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-grpc-gateway \
+    github.com/grpc-ecosystem/grpc-gateway/v2/protoc-gen-openapiv2 \
+    google.golang.org/protobuf/cmd/protoc-gen-go \
+    google.golang.org/grpc/cmd/protoc-gen-go-grpc
+```
